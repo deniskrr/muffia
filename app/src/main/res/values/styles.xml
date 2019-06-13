@@ -1,0 +1,14 @@
+<resources>
+
+    <!-- Base application theme. -->
+    <style name="AppTheme" parent="Theme.AppCompat.Light.DarkActionBar">
+        <!-- Customize your theme here. -->
+    </style>
+
+    <style name="page_background_dark">
+        <item name="android:background">@color/colorSecondary</item>
+        <item name="android:paddingLeft">@dimen/activity_horizontal_padding</item>
+        <item name="android:paddingRight">@dimen/activity_horizontal_padding</item>
+    </style>
+
+</resources>
