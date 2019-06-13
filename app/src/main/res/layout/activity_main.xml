@@ -5,4 +5,10 @@
         xmlns:app="http://schemas.android.com/apk/res-auto"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        tools:context=".MainActivity" style="?pageBackground"/>
+        tools:context=".MainActivity" style="?pageBackground">
+    <fragment
+            android:name="androidx.navigation.fragment.NavHostFragment"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent" app:navGraph="@navigation/main" app:defaultNavHost="true"
+            android:id="@+id/fragment"/>
+</androidx.constraintlayout.widget.ConstraintLayout>
