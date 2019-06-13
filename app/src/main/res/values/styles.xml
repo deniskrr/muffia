@@ -2,13 +2,16 @@
 
     <!-- Base application theme. -->
     <style name="AppTheme" parent="Theme.AppCompat.Light.DarkActionBar">
+        <item name="colorAccent">@color/colorAccent</item>
         <!-- Customize your theme here. -->
     </style>
 
     <style name="page_background_dark">
-        <item name="android:background">@color/colorSecondary</item>
-        <item name="android:paddingLeft">@dimen/activity_horizontal_padding</item>
-        <item name="android:paddingRight">@dimen/activity_horizontal_padding</item>
+        <item name="android:background">@color/colorPrimaryDark</item>
+    </style>
+
+    <style name="button_primary">
+        <item name="backgroundTint">@color/colorAccent</item>
     </style>
 
 </resources>

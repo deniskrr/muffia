@@ -3,7 +3,7 @@
 
     <style name="Theme.Mafia" parent="Theme.AppCompat">
         <item name="pageBackground">@style/page_background_dark</item>
-
+        <item name="button">@style/button_primary</item>
     </style>
 
 </resources>
