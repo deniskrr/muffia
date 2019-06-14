@@ -8,7 +8,7 @@
                                                    android:id="@+id/constraintLayout" style="?paddedLayout">
     <Button
             android:text="@string/register"
-            android:layout_width="379dp"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:id="@+id/button_register"
             style="?button"
@@ -16,7 +16,7 @@
             app:layout_constraintBottom_toTopOf="@+id/textView2" app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintHorizontal_bias="0.5" app:layout_constraintEnd_toEndOf="parent"/>
     <com.google.android.material.textfield.TextInputLayout
-            android:layout_width="395dp"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:id="@+id/email_register"
             app:layout_constraintTop_toTopOf="parent"
@@ -30,7 +30,7 @@
                 android:hint="@string/username"/>
     </com.google.android.material.textfield.TextInputLayout>
     <com.google.android.material.textfield.TextInputLayout
-            android:layout_width="395dp"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:id="@+id/username_register"
             app:layout_constraintTop_toBottomOf="@+id/email_register"
@@ -43,7 +43,7 @@
                 android:hint="@string/e_mail"/>
     </com.google.android.material.textfield.TextInputLayout>
     <com.google.android.material.textfield.TextInputLayout
-            android:layout_width="395dp"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:id="@+id/password_register"
             app:layout_constraintTop_toBottomOf="@+id/username_register"
