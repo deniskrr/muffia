@@ -1,4 +1,4 @@
-package com.deepster.mafiaparty.Login
+package com.deepster.mafiaparty.login
 
 
 import android.os.Bundle
