@@ -3,15 +3,17 @@
     <!-- Base application theme. -->
     <style name="AppTheme" parent="Theme.AppCompat.Light.DarkActionBar">
         <item name="colorAccent">@color/colorAccent</item>
+        <item name="colorPrimary">@color/colorPrimary</item>
+        <item name="colorSecondary">@color/colorSecondary</item>
         <!-- Customize your theme here. -->
     </style>
 
     <style name="page_background_dark">
-        <item name="android:background">@color/colorPrimaryDark</item>
+        <item name="android:background">@color/colorPrimary</item>
     </style>
 
     <style name="button_primary">
-        <item name="backgroundTint">@color/colorAccent</item>
+        <item name="backgroundTint">@color/colorSecondary</item>
     </style>
 
     <style name="padded_layout">

@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
-    <style name="Theme.Mafia" parent="Theme.AppCompat">
+    <style name="Theme.Mafia" parent="Theme.MaterialComponents.NoActionBar">
         <item name="pageBackground">@style/page_background_dark</item>
         <item name="button">@style/button_primary</item>
         <item name="paddedLayout">@style/padded_layout</item>
