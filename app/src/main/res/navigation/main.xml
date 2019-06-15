@@ -15,5 +15,9 @@
         <action android:id="@+id/action_registerFragment_to_mainFragment" app:destination="@id/mainFragment"/>
     </fragment>
     <fragment android:id="@+id/mainFragment" android:name="com.deepster.mafiaparty.game.MainFragment"
-              android:label="main_fragment" tools:layout="@layout/fragment_main"/>
+              android:label="main_fragment" tools:layout="@layout/fragment_main">
+        <action android:id="@+id/action_mainFragment_to_lobbyFragment" app:destination="@id/lobbyFragment"/>
+    </fragment>
+    <fragment android:id="@+id/lobbyFragment" android:name="com.deepster.mafiaparty.game.LobbyFragment"
+              android:label="fragment_lobby" tools:layout="@layout/fragment_lobby"/>
 </navigation>
