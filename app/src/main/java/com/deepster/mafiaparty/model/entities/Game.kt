@@ -1,4 +1,4 @@
-package com.deepster.mafiaparty.model
+package com.deepster.mafiaparty.model.entities
 
 import android.os.Parcelable
 import kotlinx.android.parcel.Parcelize
@@ -15,7 +15,7 @@ enum class Period {
 
 @Parcelize
 data class Game(
-    val roomID: String,
+    val roomID: String = "",
     val players: MutableMap<String, Role> = mutableMapOf(),
     var period: Period = Period.NOT_STARTED
 ) :

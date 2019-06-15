@@ -8,9 +8,9 @@ import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProviders
 import androidx.navigation.fragment.findNavController
 import com.deepster.mafiaparty.R
-import com.deepster.mafiaparty.model.Game
-import com.deepster.mafiaparty.model.Role
-import com.deepster.mafiaparty.model.User
+import com.deepster.mafiaparty.model.entities.Game
+import com.deepster.mafiaparty.model.entities.Role
+import com.deepster.mafiaparty.model.entities.User
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FirebaseFirestore
 import kotlinx.android.synthetic.main.fragment_main.*
@@ -56,7 +56,10 @@ class MainFragment : Fragment() {
                         val currentUser = data.toObject(User::class.java)!!
 
                         val newGame =
-                            Game(roomID, mutableMapOf(currentUser.username to Role.UNSELECTED)) // Create game object
+                            Game(
+                                roomID,
+                                mutableMapOf(currentUser.username to Role.UNSELECTED)
+                            ) // Create game object
 
                         db.collection("games").document(roomID).set(newGame) // Write the game to db
                         val newGameAction = MainFragmentDirections.actionMainFragmentToLobbyFragment(roomID)

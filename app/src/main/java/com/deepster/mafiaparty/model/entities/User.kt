@@ -1,4 +1,4 @@
-package com.deepster.mafiaparty.model
+package com.deepster.mafiaparty.model.entities
 
 import android.os.Parcelable
 import kotlinx.android.parcel.Parcelize

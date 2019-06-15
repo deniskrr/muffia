@@ -7,12 +7,20 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.navArgs
+import androidx.recyclerview.widget.LinearLayoutManager
 import com.deepster.mafiaparty.R
+import com.deepster.mafiaparty.model.entities.Game
+import com.deepster.mafiaparty.model.itemview.UserItemView
+import com.google.firebase.firestore.FirebaseFirestore
+import com.xwray.groupie.GroupAdapter
+import com.xwray.groupie.ViewHolder
 import kotlinx.android.synthetic.main.fragment_lobby.*
 
 class LobbyFragment : Fragment() {
 
-    val args: LobbyFragmentArgs by navArgs()
+    private lateinit var db: FirebaseFirestore
+
+    private val args: LobbyFragmentArgs by navArgs()
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -25,6 +33,29 @@ class LobbyFragment : Fragment() {
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
         text_room_id.text = args.RoomID
+
+        val adapter = GroupAdapter<ViewHolder>()
+        recycler_players.adapter = adapter
+        recycler_players.layoutManager = LinearLayoutManager(context)
+        db = FirebaseFirestore.getInstance()
+
+        db.collection("games").document(args.RoomID).addSnapshotListener { snapshot, e ->
+            if (e != null) {
+                return@addSnapshotListener
+            }
+
+            if (snapshot != null && snapshot.exists()) {
+                adapter.clear()
+                val game = snapshot.toObject(Game::class.java)
+                adapter.addAll(game!!.players.keys.map { playerName ->
+                    UserItemView(playerName)
+                })
+            } else {
+
+            }
+
+        }
+
     }
 
 

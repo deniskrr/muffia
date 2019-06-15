@@ -46,6 +46,9 @@ dependencies {
     implementation 'com.google.firebase:firebase-firestore:19.0.2'
 
     apply plugin: "androidx.navigation.safeargs.kotlin"
+
+    implementation 'com.xwray:groupie:2.3.0'
+    implementation 'com.xwray:groupie-kotlin-android-extensions:2.3.0'
 }
 
 apply plugin: 'com.google.gms.google-services'  // Google Play services Gradle plugin
