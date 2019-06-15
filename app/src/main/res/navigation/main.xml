@@ -15,5 +15,9 @@
         <action android:id="@+id/action_registerFragment_to_mainFragment" app:destination="@id/mainFragment"/>
     </fragment>
     <fragment android:id="@+id/mainFragment" android:name="com.deepster.mafiaparty.game.MainFragment"
-              android:label="main_fragment" tools:layout="@layout/main_fragment"/>
+              android:label="main_fragment" tools:layout="@layout/main_fragment">
+        <action android:id="@+id/action_mainFragment_to_noChatGameFragment" app:destination="@id/noChatGameFragment"/>
+    </fragment>
+    <fragment android:id="@+id/noChatGameFragment" android:name="com.deepster.mafiaparty.game.NoChatGameFragment"
+              android:label="no_chat_game_fragment" tools:layout="@layout/no_chat_game_fragment"/>
 </navigation>

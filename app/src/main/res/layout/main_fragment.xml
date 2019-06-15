@@ -6,10 +6,20 @@
         android:layout_height="match_parent"
         tools:context=".game.MainFragment" android:id="@+id/constraintLayout" style="?paddedLayout">
     <Button
-            android:text="@string/start_game"
+            android:text="@string/create_no_chat"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:id="@+id/button_start_game" style="?button" app:layout_constraintStart_toStartOf="parent"
+            android:id="@+id/button_create_no_chat" style="?button" app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintHorizontal_bias="0.5" app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toTopOf="parent" app:layout_constraintBottom_toBottomOf="parent"/>
+            app:layout_constraintTop_toTopOf="parent" app:layout_constraintBottom_toTopOf="@+id/button_create_chat"
+            app:layout_constraintVertical_chainStyle="packed"/>
+    <Button
+            android:text="@string/create_chat"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:id="@+id/button_create_chat" style="?button"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/button_create_no_chat"
+            app:layout_constraintStart_toStartOf="parent" app:layout_constraintHorizontal_bias="0.5"
+            app:layout_constraintEnd_toEndOf="parent"/>
 </androidx.constraintlayout.widget.ConstraintLayout>

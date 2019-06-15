@@ -12,7 +12,11 @@
         <item name="android:background">@color/colorPrimary</item>
     </style>
 
-    <style name="button_primary">
+    <style name="margin_top_view">
+        <item name="android:layout_marginTop">@dimen/view_margin</item>
+    </style>
+
+    <style name="button_primary" parent="margin_top_view">
         <item name="backgroundTint">@color/colorSecondary</item>
     </style>
 

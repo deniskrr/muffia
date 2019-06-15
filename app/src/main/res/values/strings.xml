@@ -10,5 +10,7 @@
 
     <string name="no_account">Don\'t have an account?</string>
     <string name="have_account">Already have an account?</string>
-    <string name="start_game">Start game</string>
+
+    <string name="create_no_chat">Create lobby (no chat)</string>
+    <string name="create_chat">Create lobby (with chat)</string>
 </resources>

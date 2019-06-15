@@ -8,20 +8,20 @@ import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProviders
 import com.deepster.mafiaparty.R
 
-class MainFragment : Fragment() {
+class NoChatGameFragment : Fragment() {
 
-    private lateinit var viewModel: GameViewModel
+    private lateinit var viewModel: NoChatGameViewModel
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        return inflater.inflate(R.layout.main_fragment, container, false)
+        return inflater.inflate(R.layout.no_chat_game_fragment, container, false)
     }
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
-        viewModel = ViewModelProviders.of(this).get(GameViewModel::class.java)
+        viewModel = ViewModelProviders.of(this).get(NoChatGameViewModel::class.java)
     }
 
 }
