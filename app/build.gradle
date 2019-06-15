@@ -40,6 +40,8 @@ dependencies {
     implementation 'com.google.firebase:firebase-core:16.0.9'
     implementation 'com.google.firebase:firebase-auth:17.0.0'
     implementation 'com.google.firebase:firebase-firestore:19.0.2'
+
+    apply plugin: "androidx.navigation.safeargs.kotlin"
 }
 
 apply plugin: 'com.google.gms.google-services'  // Google Play services Gradle plugin
