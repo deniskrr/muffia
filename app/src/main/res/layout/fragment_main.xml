@@ -6,7 +6,7 @@
         android:layout_height="match_parent"
         tools:context=".game.MainFragment" android:id="@+id/constraintLayout" style="?paddedLayout">
     <Button
-            android:text="@string/create_no_chat"
+            android:text="@string/create_lobby"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:id="@+id/button_create_lobby" style="?button" app:layout_constraintStart_toStartOf="parent"

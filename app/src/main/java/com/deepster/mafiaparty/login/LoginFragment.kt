@@ -48,6 +48,8 @@ class LoginFragment : androidx.fragment.app.Fragment() {
             auth.signInWithEmailAndPassword(email, password).addOnCompleteListener { task ->
                 if (task.isSuccessful) {
                     Log.d(TAG, "Sign in success")
+
+                    // Sign in the user
                     val action = LoginFragmentDirections.actionLoginFragmentToMainFragment()
                     button.findNavController().navigate(action)
 

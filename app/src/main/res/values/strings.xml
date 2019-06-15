@@ -11,11 +11,8 @@
     <string name="no_account">Don\'t have an account?</string>
     <string name="have_account">Already have an account?</string>
 
-    <string name="create_no_chat">Create lobby (no chat)</string>
-    <string name="create_chat">Create lobby (with chat)</string>
+    <string name="create_lobby">Create lobby</string>
 
-    <!-- TODO: Remove or change this placeholder text -->
-    <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="room_id">Room Id:</string>
     <string name="start">Start</string>
 </resources>

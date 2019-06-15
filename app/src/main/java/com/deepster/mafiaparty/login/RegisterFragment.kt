@@ -7,6 +7,8 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
+import androidx.navigation.findNavController
+import androidx.navigation.fragment.findNavController
 import com.deepster.mafiaparty.R
 import com.deepster.mafiaparty.model.User
 import com.google.firebase.auth.FirebaseAuth
@@ -35,13 +37,19 @@ class RegisterFragment : Fragment() {
         db = FirebaseFirestore.getInstance()
 
         if (auth.currentUser != null) { // User is logged in
-            //TODO Move to main fragment
+            val action = RegisterFragmentDirections.actionRegisterFragmentToMainFragment()
+            findNavController().navigate(action)
+        }
+
+        text_have_account.setOnClickListener { text ->
+            val loginAction = RegisterFragmentDirections.actionRegisterFragmentToLoginFragment()
+            text.findNavController().navigate(loginAction)
         }
 
         button_register.setOnClickListener { button ->
             button.isEnabled = false // Disable the register button while processing request
 
-            //Get credentials
+            // Get credentials
             val email = email_register.editText!!.text.toString()
             val username = username_register.editText!!.text.toString()
             if (username.trim().isBlank()) return@setOnClickListener
@@ -59,6 +67,10 @@ class RegisterFragment : Fragment() {
                                 // Add the user to the db
                                 val user = User(email, username, auth.currentUser!!.uid)
                                 db.collection("users").document(username).set(user)
+
+                                // Sign in the user
+                                val action = RegisterFragmentDirections.actionRegisterFragmentToMainFragment()
+                                button.findNavController().navigate(action)
                             } else { // Failed to register user
                                 Log.d(TAG, "Register failure")
                                 button.isEnabled = true
