@@ -65,8 +65,9 @@ class RegisterFragment : Fragment() {
                             if (task.isSuccessful) { // Successfully registered user
                                 Log.d(TAG, "Register success")
                                 // Add the user to the db
-                                val user = User(email, username, auth.currentUser!!.uid)
-                                db.collection("users").document(username).set(user)
+                                val uid = auth.currentUser!!.uid
+                                val user = User(email, username, uid)
+                                db.collection("users").document(uid).set(user)
 
                                 // Sign in the user
                                 val action = RegisterFragmentDirections.actionRegisterFragmentToMainFragment()
