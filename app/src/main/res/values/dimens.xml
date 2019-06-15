@@ -5,6 +5,7 @@
     <dimen name="content_left_margin_wh">8sp</dimen>
     <dimen name="text_large_margin_top">40dp</dimen>
     <dimen name="text_large_text_size">30sp</dimen>
+    <dimen name="text_slarge_text_size">24sp</dimen>
     <dimen name="text_subheader_text_size">16sp</dimen>
     <dimen name="text_regular_text_size">15sp</dimen>
     <dimen name="view_margin">20dp</dimen>
