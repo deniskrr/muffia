@@ -40,6 +40,11 @@ class LoginFragment : androidx.fragment.app.Fragment() {
             findNavController().navigate(action)
         }
 
+        text_no_account.setOnClickListener {
+            val registerAction = LoginFragmentDirections.actionLoginFragmentToRegisterFragment()
+            findNavController().navigate(registerAction)
+        }
+
         button_login.setOnClickListener { button ->
             button.isEnabled = false
             val email = email_login.editText!!.text.toString()

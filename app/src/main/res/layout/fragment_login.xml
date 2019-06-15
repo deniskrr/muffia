@@ -41,13 +41,13 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content" android:id="@+id/button_login" android:layout_weight="1"
             app:layout_constraintTop_toBottomOf="@+id/password_login"
-            app:layout_constraintBottom_toTopOf="@+id/textView" app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintBottom_toTopOf="@+id/text_no_account" app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintHorizontal_bias="0.5" app:layout_constraintEnd_toEndOf="parent" style="?button"/>
     <TextView
             android:text="@string/no_account"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:id="@+id/textView"
+            android:id="@+id/text_no_account"
             app:layout_constraintBottom_toBottomOf="parent" app:layout_constraintTop_toBottomOf="@+id/button_login"
             app:layout_constraintEnd_toEndOf="parent" app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintHorizontal_bias="0.5"/>

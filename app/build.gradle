@@ -5,6 +5,10 @@ apply plugin: 'kotlin-android'
 apply plugin: 'kotlin-android-extensions'
 
 android {
+    // Add for using latest experimental build of Android Extensions
+    androidExtensions {
+        experimental = true
+    }
     compileSdkVersion 28
     defaultConfig {
         applicationId "com.deepster.mafiaparty"
