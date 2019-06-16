@@ -6,6 +6,7 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProviders
+import androidx.navigation.findNavController
 import androidx.navigation.fragment.findNavController
 import com.deepster.mafiaparty.R
 import com.deepster.mafiaparty.model.entities.Game
@@ -33,7 +34,7 @@ class MainFragment : Fragment() {
 
         db = FirebaseFirestore.getInstance()
         auth = FirebaseAuth.getInstance()
-        if (auth.currentUser == null) {
+        if (auth.currentUser == null) { // Navigate to Login if the user is not logged
             val loginAction = MainFragmentDirections.actionMainFragmentToLoginFragment()
             findNavController().navigate(loginAction)
         }
@@ -47,8 +48,6 @@ class MainFragment : Fragment() {
                 .map { i -> kotlin.random.Random.nextInt(65, 91) } // upper letter ascii
                 .map { i -> i.toChar() }
                 .joinToString("")
-
-
 
             db.collection("users").document(auth.currentUser!!.uid) // Get the owner of the game
                 .get().addOnSuccessListener { data ->
@@ -68,6 +67,31 @@ class MainFragment : Fragment() {
                 }
 
         }
-    }
 
+        button_join_lobby.setOnClickListener { button ->
+            val roomID = textinput_room_id.editText!!.text.toString()
+
+            db.collection("users").document(auth.currentUser!!.uid) // Get the player joining the game
+                .get().addOnSuccessListener { user ->
+                    if (user.exists()) {
+                        val currentUser = user.toObject(User::class.java)!! // Convert the Firebase doc to User class
+
+                        db.collection("games").document(roomID).get().addOnSuccessListener { game ->
+                            // Get the joined game
+                            if (game.exists()) {
+                                val joinedGame =
+                                    game.toObject(Game::class.java) // Convert the Firebase doc to Game class
+                                joinedGame!!.players[currentUser.username] =
+                                    Role.UNSELECTED // Add the player joining the game
+                                db.collection("games").document(roomID).set(joinedGame).addOnSuccessListener {
+                                    val joinAction = MainFragmentDirections.actionMainFragmentToLobbyFragment(roomID)
+                                    button.findNavController().navigate(joinAction)
+                                }
+
+                            }
+                        }
+                    }
+                }
+        }
+    }
 }

@@ -13,6 +13,7 @@
 
     <string name="create_lobby">Create lobby</string>
 
-    <string name="room_id">Room Id:</string>
+    <string name="room_id">Room ID</string>
     <string name="start">Start</string>
+    <string name="join_lobby">Join lobby</string>
 </resources>
