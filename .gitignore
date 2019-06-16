@@ -41,3 +41,4 @@ _sandbox
 captures/
 
 app/google-services.json
+/.firebaserc
