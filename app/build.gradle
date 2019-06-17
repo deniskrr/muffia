@@ -14,6 +14,7 @@ android {
         applicationId "com.deepster.mafiaparty"
         minSdkVersion 16
         targetSdkVersion 28
+        multiDexEnabled true // enable mun
         versionCode 1
         versionName "1.0"
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
@@ -41,14 +42,17 @@ dependencies {
     implementation 'androidx.navigation:navigation-fragment-ktx:2.0.0'
     implementation 'androidx.navigation:navigation-ui-ktx:2.0.0'
 
+    implementation 'com.android.support:multidex:1.0.3'
+
     implementation 'com.google.firebase:firebase-core:16.0.9'
     implementation 'com.google.firebase:firebase-auth:17.0.0'
     implementation 'com.google.firebase:firebase-firestore:19.0.2'
 
-    apply plugin: "androidx.navigation.safeargs.kotlin"
 
     implementation 'com.xwray:groupie:2.3.0'
     implementation 'com.xwray:groupie-kotlin-android-extensions:2.3.0'
 }
 
+apply plugin: "androidx.navigation.safeargs.kotlin"
 apply plugin: 'com.google.gms.google-services'  // Google Play services Gradle plugin
+
