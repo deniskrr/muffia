@@ -5,7 +5,6 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
-import androidx.lifecycle.ViewModelProviders
 import androidx.navigation.findNavController
 import androidx.navigation.fragment.findNavController
 import com.deepster.mafiaparty.R
@@ -20,7 +19,6 @@ class MainFragment : Fragment() {
 
     private lateinit var auth: FirebaseAuth
     private lateinit var db: FirebaseFirestore
-    private lateinit var viewModel: GameViewModel
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -39,7 +37,6 @@ class MainFragment : Fragment() {
             findNavController().navigate(loginAction)
         }
 
-        viewModel = ViewModelProviders.of(this).get(GameViewModel::class.java)
 
         button_create_lobby.setOnClickListener {
 

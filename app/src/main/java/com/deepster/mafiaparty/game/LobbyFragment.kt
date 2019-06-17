@@ -6,10 +6,12 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
+import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.deepster.mafiaparty.R
 import com.deepster.mafiaparty.model.entities.Game
+import com.deepster.mafiaparty.model.entities.Period
 import com.deepster.mafiaparty.model.itemview.UserItemView
 import com.google.firebase.firestore.FirebaseFirestore
 import com.xwray.groupie.GroupAdapter
@@ -47,10 +49,18 @@ class LobbyFragment : Fragment() {
             if (snapshot != null && snapshot.exists()) {
                 adapter.clear()
                 val game = snapshot.toObject(Game::class.java)
-                adapter.addAll(game!!.players.keys.map { playerName ->
+
+                if (game!!.period == Period.NIGHT_ONE) {
+                    val gameAction = LobbyFragmentDirections.actionLobbyFragmentToGameFragment()
+                    findNavController().navigate(gameAction)
+                }
+
+                adapter.addAll(game.players.keys.map { playerName ->
                     UserItemView(playerName)
                 })
+
             }
+
         }
     }
 }
