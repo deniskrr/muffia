@@ -5,7 +5,7 @@ import kotlinx.android.parcel.Parcelize
 
 
 enum class Role {
-    UNSELECTED, MAFIA, VILLAGER, COP, DOCTOR
+    UNSELECTED, MAFIA, CITIZEN, COP, DOCTOR
 }
 
 
