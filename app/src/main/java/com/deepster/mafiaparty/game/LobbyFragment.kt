@@ -50,13 +50,7 @@ class LobbyFragment : Fragment() {
                 adapter.addAll(game!!.players.keys.map { playerName ->
                     UserItemView(playerName)
                 })
-            } else {
-
             }
-
         }
-
     }
-
-
 }

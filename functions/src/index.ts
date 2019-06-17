@@ -17,7 +17,7 @@ export const startGame = functions.firestore.document("games/{roomID}")
 
         // If there are 7 players in the lobby, start the game
         if (after !== undefined && Object.keys(after.players).length == 7) {            
-            after.period = "DAY_ONE"
+            after.period = "NIGHT_ONE"
             change.before.ref.update(after).then().catch()
         }
         return null;
