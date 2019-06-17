@@ -2,7 +2,7 @@
 <resources>
 
     <dimen name="activity_horizontal_padding">70dp</dimen>
-    <dimen name="content_left_margin_wh">8sp</dimen>
+    <dimen name="content_margin_wh">8sp</dimen>
     <dimen name="text_large_margin_top">40dp</dimen>
     <dimen name="text_large_text_size">30sp</dimen>
     <dimen name="text_slarge_text_size">24sp</dimen>
