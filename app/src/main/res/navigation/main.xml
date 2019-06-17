@@ -31,11 +31,16 @@
     </fragment>
     <fragment android:id="@+id/lobbyFragment" android:name="com.deepster.mafiaparty.game.LobbyFragment"
               android:label="fragment_lobby" tools:layout="@layout/fragment_lobby">
-        <argument android:name="RoomID" app:argType="string"/>
+        <argument android:name="roomID" app:argType="string"/>
         <action android:id="@+id/action_lobbyFragment_to_gameFragment" app:destination="@id/gameFragment"
                 app:enterAnim="@anim/nav_default_enter_anim" app:exitAnim="@anim/nav_default_exit_anim"
                 app:popEnterAnim="@anim/nav_default_pop_enter_anim" app:popExitAnim="@anim/nav_default_pop_exit_anim"/>
+        <argument android:name="currentUser" app:argType="com.deepster.mafiaparty.model.entities.User"/>
     </fragment>
     <fragment android:id="@+id/gameFragment" android:name="com.deepster.mafiaparty.game.GameFragment"
-              android:label="fragment_game" tools:layout="@layout/fragment_game"/>
+              android:label="fragment_game" tools:layout="@layout/fragment_game">
+        <argument android:name="roomID" app:argType="string"/>
+        <argument android:name="role" app:argType="com.deepster.mafiaparty.model.entities.Role"/>
+        <argument android:name="currentUser" app:argType="com.deepster.mafiaparty.model.entities.User"/>
+    </fragment>
 </navigation>
