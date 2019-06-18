@@ -4,10 +4,8 @@ import android.os.Parcelable
 import kotlinx.android.parcel.Parcelize
 
 
-
-
 enum class Period {
-    NOT_STARTED, DAY_ONE, DAY_TWO, DAY_THREE, NIGHT_ONE, NIGHT_TWO, NIGHT_THREE;
+    NOT_STARTED, STARTED, DAY_ONE, DAY_TWO, DAY_THREE, NIGHT_ONE, NIGHT_TWO, NIGHT_THREE;
 
 
 }

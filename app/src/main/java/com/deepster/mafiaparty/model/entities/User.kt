@@ -5,7 +5,7 @@ import kotlinx.android.parcel.Parcelize
 
 @Parcelize
 enum class Role : Parcelable {
-    UNSELECTED, MAFIA, CITIZEN, COP, DOCTOR
+    OWNER, PLAYER, MAFIA, CITIZEN, COP, DOCTOR
 }
 
 

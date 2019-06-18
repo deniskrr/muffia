@@ -5,6 +5,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
+import androidx.lifecycle.ViewModelProviders
 import androidx.navigation.findNavController
 import androidx.navigation.fragment.findNavController
 import com.deepster.mafiaparty.R
@@ -21,6 +22,7 @@ class MainFragment : Fragment() {
     private lateinit var currentUser: User
     private lateinit var auth: FirebaseAuth
     private lateinit var db: FirebaseFirestore
+    private lateinit var viewModel: GameViewModel
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -32,6 +34,7 @@ class MainFragment : Fragment() {
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
 
+        viewModel = ViewModelProviders.of(activity!!).get(GameViewModel::class.java)
 
         db = FirebaseFirestore.getInstance()
         auth = FirebaseAuth.getInstance()
@@ -43,10 +46,9 @@ class MainFragment : Fragment() {
             }
         }
 
-
         db.collection("users").document(auth.currentUser!!.uid).get().addOnSuccessListener { data ->
             if (data.exists()) {
-                currentUser = data.toObject(User::class.java)!!
+                viewModel.currentUser.value = data.toObject(User::class.java)!!
             }
         }
 
@@ -56,14 +58,16 @@ class MainFragment : Fragment() {
             val roomID = (1..4)
                 .map { i -> kotlin.random.Random.nextInt(65, 91).toChar() } // upper letter ascii
                 .joinToString("")
+            //todo Check if it doesn't exist
 
             val newGame =
                 Game(
                     roomID,
-                    mutableMapOf(currentUser.username to Role.UNSELECTED)
+                    mutableMapOf(currentUser.username to Role.OWNER)
                 ) // Create game object
             db.collection("games").document(roomID).set(newGame) // Write the game to db
-            val newGameAction = MainFragmentDirections.actionMainFragmentToLobbyFragment(roomID, currentUser)
+            viewModel.roomID.value = roomID
+            val newGameAction = MainFragmentDirections.actionMainFragmentToLobbyFragment()
             findNavController().navigate(newGameAction) // Move to the lobby fragment
         }
 
@@ -76,9 +80,9 @@ class MainFragment : Fragment() {
                     val joinedGame =
                         game.toObject(Game::class.java) // Convert the Firebase doc to Game class
                     joinedGame!!.players[currentUser.username] =
-                        Role.UNSELECTED // Add the player joining the game
+                        Role.PLAYER // Add the player joining the game
                     db.collection("games").document(roomID).set(joinedGame).addOnSuccessListener {
-                        val joinAction = MainFragmentDirections.actionMainFragmentToLobbyFragment(roomID, currentUser)
+                        val joinAction = MainFragmentDirections.actionMainFragmentToLobbyFragment()
                         button.findNavController().navigate(joinAction)
                     }
                 }
