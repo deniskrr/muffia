@@ -32,12 +32,17 @@ class MainFragment : Fragment() {
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
 
+
         db = FirebaseFirestore.getInstance()
         auth = FirebaseAuth.getInstance()
-        if (auth.currentUser == null) { // Navigate to Login if the user is not logged
-            val loginAction = MainFragmentDirections.actionMainFragmentToLoginFragment()
-            findNavController().navigate(loginAction)
+        auth.addAuthStateListener {
+            // Navigate to Login if the user is not logged
+            if (auth.currentUser == null) {
+                val loginAction = MainFragmentDirections.actionMainFragmentToLoginFragment()
+                findNavController().navigate(loginAction)
+            }
         }
+
 
         db.collection("users").document(auth.currentUser!!.uid).get().addOnSuccessListener { data ->
             if (data.exists()) {
