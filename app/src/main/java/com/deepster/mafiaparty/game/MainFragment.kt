@@ -63,10 +63,11 @@ class MainFragment : Fragment() {
                     roomID,
                     mutableMapOf(viewModel.currentUser.value!!.username to Role.OWNER)
                 ) // Create game object
-            db.collection("games").document(roomID).set(newGame) // Write the game to db
-            viewModel.game.value = newGame
-            val newGameAction = MainFragmentDirections.actionMainFragmentToLobbyFragment()
-            findNavController().navigate(newGameAction) // Move to the lobby fragment
+            db.collection("games").document(roomID).set(newGame).addOnSuccessListener {
+                viewModel.game.value = newGame
+                val newGameAction = MainFragmentDirections.actionMainFragmentToLobbyFragment()
+                findNavController().navigate(newGameAction) // Move to the lobby fragment
+            }
         }
 
         button_join_lobby.setOnClickListener { button ->
