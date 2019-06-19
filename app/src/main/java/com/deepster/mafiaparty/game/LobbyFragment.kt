@@ -14,6 +14,7 @@ import com.deepster.mafiaparty.model.entities.Game
 import com.deepster.mafiaparty.model.entities.Role
 import com.deepster.mafiaparty.model.itemview.UserItemView
 import com.google.firebase.firestore.FirebaseFirestore
+import com.google.firebase.functions.FirebaseFunctions
 import com.xwray.groupie.GroupAdapter
 import com.xwray.groupie.ViewHolder
 import kotlinx.android.synthetic.main.fragment_lobby.*
@@ -22,6 +23,7 @@ class LobbyFragment : Fragment() {
 
     private lateinit var viewModel: GameViewModel
     private lateinit var db: FirebaseFirestore
+    private lateinit var functions: FirebaseFunctions
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -42,10 +44,22 @@ class LobbyFragment : Fragment() {
         recycler_players.adapter = adapter
         recycler_players.layoutManager = LinearLayoutManager(context)
         db = FirebaseFirestore.getInstance()
+        functions = FirebaseFunctions.getInstance()
+
+        button_start_game.setOnClickListener { button ->
+            button.isEnabled = false // Disable the start button while the cloud function is running
+            val game = viewModel.game.value
+            functions.getHttpsCallable("startGame")
+                .call(game!!.roomID).addOnCompleteListener {
+                    button.isEnabled = true
+                }
+        }
 
         viewModel.game.observe(this, Observer { game ->
             // Set the player's role
             viewModel.role.value = game.players[currentUser.username]
+
+            text_room_id.text = game.roomID
 
             // Enable start button if enough players joined
             if (viewModel.role.value == Role.OWNER) {
