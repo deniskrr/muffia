@@ -11,55 +11,49 @@ admin.initializeApp()
 
 function shuffle < T>(array: T[]): T[] {
 if (!Array.isArray(array)) {
-      throw new TypeError(`Expected an Array, got ${typeof array} instead.`);
+        throw new TypeError(`Expected an Array, got ${typeof array} instead.`);
     }
-  
+
     const oldArray = [...array];
     let newArray = new Array<T>();
-  
-    while (oldArray.length) {
-      const i = Math.floor(Math.random() * oldArray.length);
-      newArray = newArray.concat(oldArray.splice(i, 1));
-    }
-  
-    return newArray;
-  }
-  
 
+    while (oldArray.length) {
+        const i = Math.floor(Math.random() * oldArray.length);
+        newArray = newArray.concat(oldArray.splice(i, 1));
+    }
+    return newArray;
+}
 
 // Start game when
-export const startGame = functions.firestore.document("games/{roomID}")
-.onUpdate(change => {
-        let game = change.after.data()
-        // If there are 7 players in the lobby, start the game
-        if (game !== undefined) {
-            if (Object.keys(game.players).length ===     7 && game.period === "NOT_STARTED") {            
-            game.period = "NIGHT_ONE" // Change the period to night 1
-            let users = Object.keys(game.players)
-            
-            users = shuffle(users)
+export const startGame = functions.https.onCall(async (data, context) => {
+    console.log(data)
+    let updatedGame = {}
 
-            const mafia = 2, cop = 1, doc = 1, citizens = 3
-            
-            for (let i = 0; i< mafia; i++) {
-                game.players[users[i]] = 'MAFIA'
-            }
+    await admin.firestore().collection("games").doc(data)
+        .get().then(gameSnapshot => {
+            return gameSnapshot.data() // Get game object
+        }).then(game => {
+            if (game != undefined && Object.keys(game.players).length == 7) {
+                game.period = 'NIGHT_ONE'
 
-            for (let i = mafia; i< mafia + cop; i++) {
-                game.players[users[i]] = 'COP'
-            }
+                let users = Object.keys(game.players)
 
-            for (let i = mafia+cop; i< mafia+cop+doc; i++) {
-                game.players[users[i]] = 'DOCTOR'
-            }
+                const roles = ['MAFIA', 'MAFIA', 'COP', 'DOCTOR', 'CITIZEN', 'CITIZEN', 'CITIZEN']
 
-            for (let i = mafia+cop+doc; i< mafia+cop+doc+citizens; i++) {
-                game.players[users[i]] = 'CITIZEN'
-            }
+                users = shuffle(users)
 
-            change.before.ref.update(game).then().catch()
+                // Map every user to a role
+                for (let i = 0; i < users.length; i++) {
+                    game.players[users[i]] = roles[i]
+                }
+
+                updatedGame = game
             }
-        }
-        return null;
-    })
+        })
+
+    // Update the game in the DB
+    return admin.firestore().collection("games").doc(data).update(updatedGame).then().catch()
+})
+      
+    
 
