@@ -8,9 +8,9 @@ import com.deepster.mafiaparty.model.entities.User
 
 class GameViewModel : ViewModel() {
 
-    lateinit var currentUser: MutableLiveData<User>
-    lateinit var game: MutableLiveData<Game>
-    lateinit var role: MutableLiveData<Role>
+    var currentUser: MutableLiveData<User> = MutableLiveData()
+    var game: MutableLiveData<Game> = MutableLiveData()
+    var role: MutableLiveData<Role> = MutableLiveData()
 
 
 }
