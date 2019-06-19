@@ -8,9 +8,11 @@ import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
+import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.deepster.mafiaparty.R
 import com.deepster.mafiaparty.model.entities.Game
+import com.deepster.mafiaparty.model.entities.Period
 import com.deepster.mafiaparty.model.entities.Role
 import com.deepster.mafiaparty.model.itemview.UserItemView
 import com.google.firebase.firestore.FirebaseFirestore
@@ -66,6 +68,11 @@ class LobbyFragment : Fragment() {
                 button_start_game.isEnabled = game.players.size == 7
             } else {
                 //todo Show something else for normals players
+            }
+
+            if (game.period == Period.NIGHT_ONE) {
+                val gameAction = LobbyFragmentDirections.actionLobbyFragmentToGameFragment()
+                findNavController().navigate(gameAction)
             }
 
             // Update UI player list
