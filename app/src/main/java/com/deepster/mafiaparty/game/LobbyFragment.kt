@@ -6,12 +6,12 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
+import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
-import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.deepster.mafiaparty.R
 import com.deepster.mafiaparty.model.entities.Game
-import com.deepster.mafiaparty.model.entities.Period
+import com.deepster.mafiaparty.model.entities.Role
 import com.deepster.mafiaparty.model.itemview.UserItemView
 import com.google.firebase.firestore.FirebaseFirestore
 import com.xwray.groupie.GroupAdapter
@@ -36,13 +36,34 @@ class LobbyFragment : Fragment() {
 
         viewModel = ViewModelProviders.of(activity!!).get(GameViewModel::class.java)
 
+        val currentUser = viewModel.currentUser.value!!
+
         val adapter = GroupAdapter<ViewHolder>()
         recycler_players.adapter = adapter
         recycler_players.layoutManager = LinearLayoutManager(context)
         db = FirebaseFirestore.getInstance()
 
-        val roomID = viewModel.roomID.value!!
+        viewModel.game.observe(this, Observer { game ->
+            // Set the player's role
+            viewModel.role.value = game.players[currentUser.username]
 
+            // Enable start button if enough players joined
+            if (viewModel.role.value == Role.OWNER) {
+                button_start_game.isEnabled = game.players.size == 7
+            } else {
+                //todo Show something else for normals players
+            }
+
+            // Update UI player list
+            adapter.clear()
+            adapter.addAll(game.players.map { player ->
+                UserItemView(player.key)
+            })
+        })
+
+        val roomID = viewModel.game.value!!.roomID
+
+        // Update game object
         db.collection("games").document(roomID).addSnapshotListener { snapshot, e ->
             if (e != null) {
                 return@addSnapshotListener
@@ -50,21 +71,7 @@ class LobbyFragment : Fragment() {
 
             if (snapshot != null && snapshot.exists()) {
                 val game = snapshot.toObject(Game::class.java)!!
-                val currentUser = viewModel.currentUser.value!!
-                viewModel.role.value = game.players[currentUser.username]
-
-                button_start_game.isEnabled = game.players.size == 7 // If enough players joined, enable start button
-
-                if (game.period == Period.NIGHT_ONE) { // If roles were distributed
-                    val role = game.players[currentUser.username]!!
-                    viewModel.role.value = role
-                    val gameAction = LobbyFragmentDirections.actionLobbyFragmentToGameFragment()
-                    findNavController().navigate(gameAction)
-                }
-                adapter.clear()
-                adapter.addAll(game.players.keys.map { playerName ->
-                    UserItemView(playerName)
-                })
+                viewModel.game.value = game
             }
         }
     }
