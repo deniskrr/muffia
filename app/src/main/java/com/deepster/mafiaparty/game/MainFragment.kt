@@ -18,8 +18,6 @@ import kotlinx.android.synthetic.main.fragment_main.*
 
 class MainFragment : Fragment() {
 
-
-    private lateinit var currentUser: User
     private lateinit var auth: FirebaseAuth
     private lateinit var db: FirebaseFirestore
     private lateinit var viewModel: GameViewModel
@@ -43,12 +41,12 @@ class MainFragment : Fragment() {
             if (auth.currentUser == null) {
                 val loginAction = MainFragmentDirections.actionMainFragmentToLoginFragment()
                 findNavController().navigate(loginAction)
-            }
-        }
-
-        db.collection("users").document(auth.currentUser!!.uid).get().addOnSuccessListener { data ->
-            if (data.exists()) {
-                viewModel.currentUser.value = data.toObject(User::class.java)!!
+            } else {
+                db.collection("users").document(auth.currentUser!!.uid).get().addOnSuccessListener { data ->
+                    if (data.exists()) {
+                        viewModel.currentUser.value = data.toObject(User::class.java)!!
+                    }
+                }
             }
         }
 
@@ -63,7 +61,7 @@ class MainFragment : Fragment() {
             val newGame =
                 Game(
                     roomID,
-                    mutableMapOf(currentUser.username to Role.OWNER)
+                    mutableMapOf(viewModel.currentUser.value!!.username to Role.OWNER)
                 ) // Create game object
             db.collection("games").document(roomID).set(newGame) // Write the game to db
             viewModel.game.value = newGame
@@ -79,10 +77,11 @@ class MainFragment : Fragment() {
                 if (game.exists()) {
                     val joinedGame =
                         game.toObject(Game::class.java) // Convert the Firebase doc to Game class
-                    joinedGame!!.players[currentUser.username] =
+                    joinedGame!!.players[viewModel.currentUser.value!!.username] =
                         Role.PLAYER // Add the player joining the game
                     db.collection("games").document(roomID).set(joinedGame).addOnSuccessListener {
                         val joinAction = MainFragmentDirections.actionMainFragmentToLobbyFragment()
+                        viewModel.game.value = joinedGame
                         button.findNavController().navigate(joinAction)
                     }
                 }
