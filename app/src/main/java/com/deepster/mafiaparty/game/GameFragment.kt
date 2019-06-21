@@ -44,8 +44,11 @@ class GameFragment : Fragment() {
 
         viewModel.game.observe(this, Observer { game ->
             viewModel.role.value = game.players[currentUser.username]
-            text_period.text = game.period.toString()
-            if (game.period.toString().contains("NIGHT")) { // Night time
+
+            //todo Add resource strings
+            val periodString = (if (game.period % 2 == 0) "Night " else "Day ") + (game.period / 2)
+            text_period.text = periodString
+            if (game.period % 2 == 1) { // Night time
                 //todo Make background dark
                 when (viewModel.role.value) {
                     Role.MAFIA -> {

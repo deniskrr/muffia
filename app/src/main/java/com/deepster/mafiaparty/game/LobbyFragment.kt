@@ -12,7 +12,6 @@ import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.deepster.mafiaparty.R
 import com.deepster.mafiaparty.shared.Game
-import com.deepster.mafiaparty.shared.Period
 import com.deepster.mafiaparty.shared.Role
 import com.deepster.mafiaparty.shared.UserItemView
 import com.google.firebase.firestore.FirebaseFirestore
@@ -70,7 +69,7 @@ class LobbyFragment : Fragment() {
                 //todo Show something else for normals players
             }
 
-            if (game.period == Period.NIGHT_ONE) {
+            if (game.period == 1) {
                 val gameAction = LobbyFragmentDirections.actionLobbyFragmentToGameFragment()
                 findNavController().navigate(gameAction)
             }

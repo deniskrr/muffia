@@ -34,7 +34,7 @@ export const startGame = functions.https.onCall(async (data, context) => {
             return gameSnapshot.data() // Get game object
         }).then(game => {
             if (game != undefined && Object.keys(game.players).length == 7) {
-                game.period = 'NIGHT_ONE'
+                game.period = 1
 
                 let users = Object.keys(game.players)
 
