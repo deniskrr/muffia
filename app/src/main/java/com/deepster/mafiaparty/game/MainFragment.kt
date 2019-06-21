@@ -9,9 +9,9 @@ import androidx.lifecycle.ViewModelProviders
 import androidx.navigation.findNavController
 import androidx.navigation.fragment.findNavController
 import com.deepster.mafiaparty.R
-import com.deepster.mafiaparty.model.entities.Game
-import com.deepster.mafiaparty.model.entities.Role
-import com.deepster.mafiaparty.model.entities.User
+import com.deepster.mafiaparty.shared.Game
+import com.deepster.mafiaparty.shared.Role
+import com.deepster.mafiaparty.shared.User
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FirebaseFirestore
 import kotlinx.android.synthetic.main.fragment_main.*

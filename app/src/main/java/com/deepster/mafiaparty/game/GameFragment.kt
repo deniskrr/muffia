@@ -9,9 +9,9 @@ import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.deepster.mafiaparty.R
-import com.deepster.mafiaparty.model.entities.Game
-import com.deepster.mafiaparty.model.entities.Role
-import com.deepster.mafiaparty.model.itemview.UserItemView
+import com.deepster.mafiaparty.shared.Game
+import com.deepster.mafiaparty.shared.Role
+import com.deepster.mafiaparty.shared.UserItemView
 import com.google.firebase.firestore.FirebaseFirestore
 import com.xwray.groupie.GroupAdapter
 import com.xwray.groupie.ViewHolder

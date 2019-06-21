@@ -2,9 +2,9 @@ package com.deepster.mafiaparty.game
 
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
-import com.deepster.mafiaparty.model.entities.Game
-import com.deepster.mafiaparty.model.entities.Role
-import com.deepster.mafiaparty.model.entities.User
+import com.deepster.mafiaparty.shared.Game
+import com.deepster.mafiaparty.shared.Role
+import com.deepster.mafiaparty.shared.User
 
 class GameViewModel : ViewModel() {
 

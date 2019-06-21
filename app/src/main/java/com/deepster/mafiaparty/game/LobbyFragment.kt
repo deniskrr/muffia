@@ -11,10 +11,10 @@ import androidx.lifecycle.ViewModelProviders
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.deepster.mafiaparty.R
-import com.deepster.mafiaparty.model.entities.Game
-import com.deepster.mafiaparty.model.entities.Period
-import com.deepster.mafiaparty.model.entities.Role
-import com.deepster.mafiaparty.model.itemview.UserItemView
+import com.deepster.mafiaparty.shared.Game
+import com.deepster.mafiaparty.shared.Period
+import com.deepster.mafiaparty.shared.Role
+import com.deepster.mafiaparty.shared.UserItemView
 import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.functions.FirebaseFunctions
 import com.xwray.groupie.GroupAdapter
