@@ -10,6 +10,6 @@ data class Game(
     val roomID: String = "",
     val players: MutableMap<String, Role> = mutableMapOf(),
     var period: Int = 0,
-    var votes: MutableList<MutableMap<String, String>> = mutableListOf()
+    var votes: MutableList<MutableMap<String, String>> = mutableListOf(mutableMapOf())
 ) :
     Parcelable
