@@ -78,16 +78,23 @@ class MainFragment : Fragment() {
                 if (game.exists()) {
                     val joinedGame =
                         game.toObject(Game::class.java) // Convert the Firebase doc to Game class
-                    joinedGame!!.players[viewModel.currentUser.value!!.username] =
-                        Role.PLAYER // Add the player joining the game
-                    db.collection("games").document(roomID).set(joinedGame).addOnSuccessListener {
-                        val joinAction = MainFragmentDirections.actionMainFragmentToLobbyFragment()
-                        viewModel.game.value = joinedGame
-                        button.findNavController().navigate(joinAction)
+
+                    val currentUser = viewModel.currentUser.value!!
+
+                    // If the player is new to the lobby  - add him
+                    if (!joinedGame!!.players.containsKey(currentUser.username)) {
+                        joinedGame.players[currentUser.username] =
+                            Role.PLAYER // Add the player joining the game
+                        db.collection("games").document(roomID).set(joinedGame)
                     }
+
+                    val joinAction = MainFragmentDirections.actionMainFragmentToLobbyFragment()
+                    viewModel.game.value = joinedGame
+                    button.findNavController().navigate(joinAction)
                 }
             }
         }
     }
 }
+
 
