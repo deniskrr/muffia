@@ -11,6 +11,7 @@ data class Game(
     val alivePlayers: MutableMap<String, Role> = mutableMapOf(),
     var period: Int = 0,
     var votes: MutableList<MutableMap<String, String>> = mutableListOf(mutableMapOf()),
-    val deadPlayers: MutableList<String> = mutableListOf()
+    val deadPlayers: MutableList<String> = mutableListOf(),
+    val investigatedPlayers: MutableMap<String, Role> = mutableMapOf()
 ) :
     Parcelable
