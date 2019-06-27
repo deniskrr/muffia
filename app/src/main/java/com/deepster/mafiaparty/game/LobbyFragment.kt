@@ -58,15 +58,15 @@ class LobbyFragment : Fragment() {
 
         viewModel.game.observe(this, Observer { game ->
             // Set the player's role
-            viewModel.role.value = game.players[currentUser.username]
+            viewModel.role.value = game.alivePlayers[currentUser.username]
 
             text_room_id.text = game.roomID
 
-            // Enable start button if enough players joined
+            // Enable start button if enough alivePlayers joined
             if (viewModel.role.value == Role.OWNER) {
-                button_start_game.isEnabled = game.players.size == 7
+                button_start_game.isEnabled = game.alivePlayers.size == 7
             } else {
-                //todo Show something else for normals players
+                //todo Show something else for normals alivePlayers
             }
 
             if (game.period == 1) {
@@ -76,7 +76,7 @@ class LobbyFragment : Fragment() {
 
             // Update UI player list
             adapter.clear()
-            adapter.addAll(game.players.keys.map { player ->
+            adapter.addAll(game.alivePlayers.keys.map { player ->
                 UserItemView(player)
             })
         })

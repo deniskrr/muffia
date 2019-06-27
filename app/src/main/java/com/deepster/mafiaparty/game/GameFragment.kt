@@ -39,11 +39,24 @@ class GameFragment : Fragment() {
         val currentUser = viewModel.currentUser.value!!
 
         val adapter = GroupAdapter<ViewHolder>()
+        adapter.setOnItemClickListener { item, _ ->
+            if (item is UserItemView) {
+                button_vote.text = item.user
+            }
+        }
         recycler_players.adapter = adapter
         recycler_players.layoutManager = LinearLayoutManager(context)
 
+        button_vote.setOnClickListener {
+            val game = viewModel.game.value!!
+            val role = viewModel.role.value!!
+            val voteString = "${button_vote.text},${role}"
+            game.votes[game.period - 1][currentUser.username] = voteString
+            db.collection("games").document(game.roomID).set(game)
+        }
+
         viewModel.game.observe(this, Observer { game ->
-            viewModel.role.value = game.players[currentUser.username]
+            viewModel.role.value = game.alivePlayers[currentUser.username]
 
             //todo Add resource strings
             val periodString = (if (game.period % 2 == 0) "Night " else "Day ") + (game.period / 2)
@@ -77,7 +90,7 @@ class GameFragment : Fragment() {
 
             }
             adapter.clear()
-            adapter.addAll(game.players.keys.map { player -> UserItemView(player) })
+            adapter.addAll(game.alivePlayers.keys.map { player -> UserItemView(player) })
         })
 
         val roomID = viewModel.game.value!!.roomID

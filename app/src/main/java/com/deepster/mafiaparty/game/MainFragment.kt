@@ -82,8 +82,8 @@ class MainFragment : Fragment() {
                     val currentUser = viewModel.currentUser.value!!
 
                     // If the player is new to the lobby  - add him
-                    if (!joinedGame!!.players.containsKey(currentUser.username)) {
-                        joinedGame.players[currentUser.username] =
+                    if (!joinedGame!!.alivePlayers.containsKey(currentUser.username)) {
+                        joinedGame.alivePlayers[currentUser.username] =
                             Role.PLAYER // Add the player joining the game
                         db.collection("games").document(roomID).set(joinedGame)
                     }
