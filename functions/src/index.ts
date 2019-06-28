@@ -102,6 +102,8 @@ export const newPeriod = functions.https.onCall(async (data, context) => {
 
                     game.period += 1
 
+                    game.votes.push({})
+
                     updatedGame = game
 
                 }
