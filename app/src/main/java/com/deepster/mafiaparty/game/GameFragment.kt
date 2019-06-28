@@ -52,8 +52,16 @@ class GameFragment : Fragment() {
 
         button_vote.setOnClickListener {
             val game = viewModel.game.value!!
-            val role = viewModel.role.value!!
-            val voteString = "${button_vote.text},${role}"
+            lateinit var voteString: String
+
+            if (game.period % 2 == 1) { // If it is night, the vote works according to the user's role
+                val role = viewModel.role.value!!
+                voteString = "${button_vote.text},${role}"
+
+            } else { // If it is day, it's lynch time
+                voteString = button_vote.text.toString()
+            }
+
             game.votes[game.period - 1][currentUser.username] = voteString
             db.collection("games").document(game.roomID).set(game).addOnSuccessListener {
                 functions.getHttpsCallable("newPeriod")
@@ -65,34 +73,37 @@ class GameFragment : Fragment() {
             viewModel.role.value = game.alivePlayers[currentUser.username]
 
             //todo Add resource strings
-            val periodString = (if (game.period % 2 == 1) "Night " else "Day ") + (game.period / 2)
+            val periodString = (if (game.period % 2 == 1) "Night " else "Day ") + (game.period / 2 + 1)
             text_period.text = periodString
             if (game.period % 2 == 1) { // Night time
                 //todo Make background dark
                 when (viewModel.role.value) {
                     Role.MAFIA -> {
-                        text_role_help.text = resources.getString(R.string.mafia_help)
+                        text_role_help.text = getString(R.string.mafia_help)
                         recycler_players.visibility = View.VISIBLE
                         button_vote.visibility = View.VISIBLE
                     }
                     Role.COP -> {
-                        text_role_help.text = resources.getString(R.string.cop_help)
+                        text_role_help.text = getString(R.string.cop_help)
                         recycler_players.visibility = View.VISIBLE
                         button_vote.visibility = View.VISIBLE
                     }
                     Role.DOCTOR -> {
-                        text_role_help.text = resources.getString(R.string.doctor_help)
+                        text_role_help.text = getString(R.string.doctor_help)
                         recycler_players.visibility = View.VISIBLE
                         button_vote.visibility = View.VISIBLE
                     }
                     Role.CITIZEN -> {
-                        text_role_help.text = resources.getString(R.string.citizen_help)
+                        text_role_help.text = getString(R.string.citizen_help)
                         recycler_players.visibility = View.GONE
                         button_vote.visibility = View.GONE
                     }
                 }
             } else { // Day time
                 //todo Make background light
+                text_role_help.text = getString(R.string.lynch_help)
+                recycler_players.visibility = View.VISIBLE
+                button_vote.visibility = View.VISIBLE
 
             }
             adapter.clear()
