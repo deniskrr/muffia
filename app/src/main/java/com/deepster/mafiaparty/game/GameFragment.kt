@@ -73,7 +73,7 @@ class GameFragment : Fragment() {
             viewModel.role.value = game.alivePlayers[currentUser.username]
 
             //todo Add resource strings
-            val periodString = (if (game.period % 2 == 1) "Night " else "Day ") + (game.period / 2 + 1)
+            val periodString = (if (game.period % 2 == 1) "Night " else "Day ") + ((game.period - 1) / 2 + 1)
             text_period.text = periodString
             if (game.period % 2 == 1) { // Night time
                 //todo Make background dark
