@@ -13,6 +13,7 @@ import com.deepster.mafiaparty.shared.Game
 import com.deepster.mafiaparty.shared.Role
 import com.deepster.mafiaparty.shared.UserItemView
 import com.google.firebase.firestore.FirebaseFirestore
+import com.google.firebase.functions.FirebaseFunctions
 import com.xwray.groupie.GroupAdapter
 import com.xwray.groupie.ViewHolder
 import kotlinx.android.synthetic.main.fragment_game.*
@@ -20,6 +21,7 @@ import kotlinx.android.synthetic.main.fragment_game.*
 @Suppress("NON_EXHAUSTIVE_WHEN")
 class GameFragment : Fragment() {
 
+    private lateinit var functions: FirebaseFunctions
     private lateinit var viewModel: GameViewModel
     private lateinit var db: FirebaseFirestore
 
@@ -35,6 +37,7 @@ class GameFragment : Fragment() {
         viewModel = ViewModelProviders.of(activity!!).get(GameViewModel::class.java)
 
         db = FirebaseFirestore.getInstance()
+        functions = FirebaseFunctions.getInstance()
 
         val currentUser = viewModel.currentUser.value!!
 
@@ -52,14 +55,17 @@ class GameFragment : Fragment() {
             val role = viewModel.role.value!!
             val voteString = "${button_vote.text},${role}"
             game.votes[game.period - 1][currentUser.username] = voteString
-            db.collection("games").document(game.roomID).set(game)
+            db.collection("games").document(game.roomID).set(game).addOnSuccessListener {
+                functions.getHttpsCallable("newPeriod")
+                    .call(game.roomID)
+            }
         }
 
         viewModel.game.observe(this, Observer { game ->
             viewModel.role.value = game.alivePlayers[currentUser.username]
 
             //todo Add resource strings
-            val periodString = (if (game.period % 2 == 0) "Night " else "Day ") + (game.period / 2)
+            val periodString = (if (game.period % 2 == 1) "Night " else "Day ") + (game.period / 2)
             text_period.text = periodString
             if (game.period % 2 == 1) { // Night time
                 //todo Make background dark
