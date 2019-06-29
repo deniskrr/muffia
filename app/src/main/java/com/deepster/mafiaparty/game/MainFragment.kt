@@ -60,8 +60,8 @@ class MainFragment : Fragment() {
 
             val newGame =
                 Game(
-                    roomID,
-                    mutableMapOf(viewModel.currentUser.value!!.username to Role.OWNER)
+                    roomID = roomID,
+                    alivePlayers = mutableMapOf(viewModel.currentUser.value!!.username to Role.OWNER)
                 ) // Create game object
             db.collection("games").document(roomID).set(newGame).addOnSuccessListener {
                 viewModel.game.value = newGame
