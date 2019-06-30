@@ -61,7 +61,7 @@ class MainFragment : Fragment() {
             val newGame =
                 Game(
                     roomID = roomID,
-                    alivePlayers = mutableMapOf(viewModel.currentUser.value!!.username to Role.OWNER)
+                    players = mutableMapOf(viewModel.currentUser.value!!.username to Role.OWNER)
                 ) // Create game object
             db.collection("games").document(roomID).set(newGame).addOnSuccessListener {
                 viewModel.game.value = newGame
@@ -82,8 +82,8 @@ class MainFragment : Fragment() {
                     val currentUser = viewModel.currentUser.value!!
 
                     // If the player is new to the lobby  - add him
-                    if (!joinedGame!!.alivePlayers.containsKey(currentUser.username)) {
-                        joinedGame.alivePlayers[currentUser.username] =
+                    if (!joinedGame!!.players.containsKey(currentUser.username)) {
+                        joinedGame.players[currentUser.username] =
                             Role.PLAYER // Add the player joining the game
                         db.collection("games").document(roomID).set(joinedGame)
                     }

@@ -70,7 +70,7 @@ class GameFragment : Fragment() {
         }
 
         viewModel.game.observe(this, Observer { game ->
-            viewModel.role.value = game.alivePlayers[currentUser.username]
+            viewModel.role.value = game.players[currentUser.username]
 
             //todo Add resource strings
             val periodString = (if (game.period % 2 == 1) "Night " else "Day ") + ((game.period - 1) / 2 + 1)
@@ -107,7 +107,7 @@ class GameFragment : Fragment() {
 
             }
             adapter.clear()
-            adapter.addAll(game.alivePlayers.keys.map { player -> UserItemView(player) })
+            adapter.addAll(game.alivePlayers.map { player -> UserItemView(player) })
         })
 
         val roomID = viewModel.game.value!!.roomID
