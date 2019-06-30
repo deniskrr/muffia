@@ -4,22 +4,6 @@ import _ = require('lodash');
 
 admin.initializeApp()
 
-function shuffle < T>(array: T[]): T[] {
-if (!Array.isArray(array)) {
-        throw new TypeError(`Expected an Array, got ${typeof array} instead.`);
-    }
-
-    const oldArray = [...array];
-    let newArray = new Array<T>();
-
-    while (oldArray.length) {
-        const i = Math.floor(Math.random() * oldArray.length);
-        newArray = newArray.concat(oldArray.splice(i, 1));
-    }
-    return newArray;
-}
-
-// Start game when
 export const startGame = functions.https.onCall(async (data, context) => {
 
     let updatedGame = {}
@@ -51,7 +35,7 @@ export const startGame = functions.https.onCall(async (data, context) => {
                     roles.push('CITIZEN')
                 }
 
-                users = shuffle(users)
+                users = _.shuffle(users)
 
                 // Distribute the roles to players
                 for (let i = 0; i < users.length; i++) {
