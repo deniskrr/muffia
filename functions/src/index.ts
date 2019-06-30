@@ -17,23 +17,12 @@ export const startGame = functions.https.onCall(async (data, context) => {
 
                 let users = _.keys(game.players)
 
-                const roles = []
+                const roles : string[] = []
 
-                for (let i = 0; i < game.copCount; i++) {
-                    roles.push('COP')
-                }
-
-                for (let i = 0; i < game.doctorCount; i++) {
-                    roles.push('DOCTOR')
-                }
-
-                for (let i = 0; i < game.mafiaCount; i++) {
-                    roles.push('MAFIA')
-                }
-
-                for (let i = 0; i < game.citizenCount; i++) {
-                    roles.push('CITIZEN')
-                }
+                _.times(game.mafiaCount, () => roles.push('MAFIA'))
+                _.times(game.copCount, () => roles.push('COP'))
+                _.times(game.doctorCount, () => roles.push('DOCTOR'))
+                _.times(game.citizenCount, () => roles.push('CITIZEN'))
 
                 users = _.shuffle(users)
 
