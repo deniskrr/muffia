@@ -11,7 +11,7 @@ data class Game(
     val copCount: Int = 1,
     val citizenCount: Int = 3,
     val doctorCount: Int = 1,
-    val mafiaCount: Int = 3,
+    val mafiaCount: Int = 2,
     var period: Int = 0,
     val alivePlayers: MutableMap<String, Role> = mutableMapOf(),
     val deadPlayers: MutableList<String> = mutableListOf(),
