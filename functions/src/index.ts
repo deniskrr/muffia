@@ -1,5 +1,6 @@
 import * as functions from 'firebase-functions';
 import * as admin from 'firebase-admin'
+import _ = require('lodash');
 
 admin.initializeApp()
 
@@ -52,7 +53,7 @@ export const startGame = functions.https.onCall(async (data, context) => {
 
                 users = shuffle(users)
 
-                // Map every user to a role
+                // Distribute the roles to players
                 for (let i = 0; i < users.length; i++) {
                     game.alivePlayers[users[i]] = roles[i]
                 }
@@ -90,6 +91,7 @@ function kill(game: any, killed: string) {
 
 }
 
+
 function investigate(game: any, investigated: string) {
     if (game.alivePlayers[investigated] == 'MAFIA') {
         game.investigatedPlayers[investigated] = 'MAFIA'
@@ -112,7 +114,7 @@ export const newPeriod = functions.https.onCall(async (data, context) => {
             }).then(game => {
                 if (game != undefined) {
                     if (game.period % 2 == 1 && Object.keys(game.votes[game.period - 1]).length ==
-                        Object.keys(game.alivePlayers).length - game.citizenCount) {
+                        Object.keys(game.alivePlayers).length - game.citizenCount) { // Night time and enough players voted
 
                         console.log("Night time")
 
@@ -120,6 +122,7 @@ export const newPeriod = functions.https.onCall(async (data, context) => {
                         let copVotes: string[] = []
                         let doctorVotes: string[] = []
 
+                        // Get the votes count for every party
                         Object.values<string>(game.votes[game.period - 1]).forEach((voteString: String) => {
                             let voteArray = voteString.split(",")
                             let votedUser = voteArray[0]
@@ -146,6 +149,8 @@ export const newPeriod = functions.https.onCall(async (data, context) => {
                         let saved = doctorVotes[0]
                         let investigated = copVotes[0]
 
+
+                        // Perform actions based on votes
                         investigate(game, investigated)
 
                         if (killed !== saved) {
@@ -156,13 +161,36 @@ export const newPeriod = functions.https.onCall(async (data, context) => {
 
                         updatedGame = game
 
-                    } else if (game.period % 2 == 0 && Object.keys(game.votes[game.period - 1]) == Object.keys(game.alivePlayers)) {
+                    } else if (game.period % 2 == 0 &&
+                        Object.keys(game.votes[game.period - 1]).length == Object.keys(game.alivePlayers).length) { // Day time and enough players voted
 
                         console.log("Day time")
+
+                        // Compute the voting count for every voted player
+                        let votes = Object.values<string>(game.votes[game.period - 1])
+                            .reduce((a, c) => {
+                                    a[c] = (a[c] || 0) + 1
+                                    return a
+                                }, Object.create(null)
+)
+
+// Get the most voted player
+var lynchedPlayer = _.maxBy(_.keys(votes), function (o) {
+return votes[o];
+});
+
+// Kill it
+if (lynchedPlayer !== undefined) kill(game, lynchedPlayer)
+
+                        advancePeriod(game)
+
+                        updatedGame = game
+
+                        console.log(votes)
                     }
                 }
             })
-        // Update the game in the DB
+// Update the game in the DB
         return admin.firestore().collection("games").doc(data).update(updatedGame).then().catch()
     }
 )
