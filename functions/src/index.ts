@@ -21,17 +21,17 @@ if (!Array.isArray(array)) {
 
 // Start game when
 export const startGame = functions.https.onCall(async (data, context) => {
-    console.log(data)
+
     let updatedGame = {}
 
     await admin.firestore().collection("games").doc(data)
         .get().then(gameSnapshot => {
             return gameSnapshot.data() // Get game object
         }).then(game => {
-            if (game != undefined && Object.keys(game.alivePlayers).length == 7) {
+            if (game !== undefined && _.keys(game.players).length === 7) {
                 game.period = 1
 
-                let users = Object.keys(game.alivePlayers)
+                let users = _.keys(game.players)
 
                 const roles = []
 
@@ -55,10 +55,14 @@ export const startGame = functions.https.onCall(async (data, context) => {
 
                 // Distribute the roles to players
                 for (let i = 0; i < users.length; i++) {
-                    game.alivePlayers[users[i]] = roles[i]
+                    game.players[users[i]] = roles[i]
                 }
 
+                game.alivePlayers = _.keys(game.players)
+
                 updatedGame = game
+
+
             }
         })
 
@@ -67,7 +71,7 @@ export const startGame = functions.https.onCall(async (data, context) => {
 })
 
 function kill(game: any, killed: string) {
-    switch (game.alivePlayers[killed]) {
+    switch (game.players[killed]) {
         case 'MAFIA': {
             game.mafiaCount--
             break;
@@ -86,14 +90,26 @@ function kill(game: any, killed: string) {
         }
     }
 
-    delete game.alivePlayers[killed]
+    // Remove the killed player from alive players list
+    _.pull(game.alivePlayers, killed)
+
+    // Add the killed player from dead players list
     game.deadPlayers.push(killed)
 
 }
 
 
+function getMostFrequentVote(votes : Array<String>) : string {
+    const voteCount = _.countBy(votes)
+    const mostFrequent = _.maxBy(_.keys(voteCount), (votedPlayer : string) => voteCount[votedPlayer])
+    if (mostFrequent !== undefined) {
+        return mostFrequent
+    }
+    return ""
+}
+
 function investigate(game: any, investigated: string) {
-    if (game.alivePlayers[investigated] == 'MAFIA') {
+    if (game.alivePlayers[investigated] === 'MAFIA') {
         game.investigatedPlayers[investigated] = 'MAFIA'
     } else {
         game.investigatedPlayers[investigated] = 'CITIZEN'
@@ -112,21 +128,21 @@ export const newPeriod = functions.https.onCall(async (data, context) => {
             .get().then(gameSnapshot => {
                 return gameSnapshot.data() // Get game object
             }).then(game => {
-                if (game != undefined) {
-                    if (game.period % 2 == 1 && Object.keys(game.votes[game.period - 1]).length ==
-                        Object.keys(game.alivePlayers).length - game.citizenCount) { // Night time and enough players voted
+                if (game !== undefined) {
+                    if (game.period % 2 === 1 && _.keys(game.votes[game.period - 1]).length ===
+                        _.keys(game.alivePlayers).length - game.citizenCount) { // Night time and enough players voted
 
                         console.log("Night time")
 
-                        let mafiaVotes: string[] = []
-                        let copVotes: string[] = []
-                        let doctorVotes: string[] = []
+                        const mafiaVotes: string[] = []
+                        const copVotes: string[] = []
+                        const doctorVotes: string[] = []
 
                         // Get the votes count for every party
-                        Object.values<string>(game.votes[game.period - 1]).forEach((voteString: String) => {
-                            let voteArray = voteString.split(",")
-                            let votedUser = voteArray[0]
-                            let votedRole = voteArray[1]
+                        _.values<string>(game.votes[game.period - 1]).forEach((voteString: String) => {
+                            const voteArray = voteString.split(",")
+                            const votedUser = voteArray[0]
+                            const votedRole = voteArray[1]
                             switch (votedRole) {
                                 case 'MAFIA': {
                                     mafiaVotes.push(votedUser)
@@ -143,12 +159,9 @@ export const newPeriod = functions.https.onCall(async (data, context) => {
                             }
                         })
 
-                        //TODO: sort votes by frequency and select the most frequent for each roleVote
-
-                        let killed = mafiaVotes[0]
-                        let saved = doctorVotes[0]
-                        let investigated = copVotes[0]
-
+                        const killed = getMostFrequentVote(mafiaVotes)
+                        const saved = getMostFrequentVote(doctorVotes)
+                        const investigated = getMostFrequentVote(copVotes)
 
                         // Perform actions based on votes
                         investigate(game, investigated)
@@ -161,36 +174,26 @@ export const newPeriod = functions.https.onCall(async (data, context) => {
 
                         updatedGame = game
 
-                    } else if (game.period % 2 == 0 &&
-                        Object.keys(game.votes[game.period - 1]).length == Object.keys(game.alivePlayers).length) { // Day time and enough players voted
+                    } else if (game.period % 2 === 0 &&
+                        _.keys(game.votes[game.period - 1]).length === _.keys(game.alivePlayers).length) { // Day time and enough players voted
 
                         console.log("Day time")
 
-                        // Compute the voting count for every voted player
-                        let votes = Object.values<string>(game.votes[game.period - 1])
-                            .reduce((a, c) => {
-                                    a[c] = (a[c] || 0) + 1
-                                    return a
-                                }, Object.create(null)
-)
+                        const lynchVotes = _.values(game.votes[game.period - 1])
 
-// Get the most voted player
-var lynchedPlayer = _.maxBy(_.keys(votes), function (o) {
-return votes[o];
-});
+                        const lynchedPlayer = getMostFrequentVote(lynchVotes)
 
-// Kill it
-if (lynchedPlayer !== undefined) kill(game, lynchedPlayer)
+                        // Kill it
+                        if (lynchedPlayer !== undefined) kill(game, lynchedPlayer)
 
                         advancePeriod(game)
 
                         updatedGame = game
 
-                        console.log(votes)
                     }
                 }
             })
-// Update the game in the DB
+        // Update the game in the DB
         return admin.firestore().collection("games").doc(data).update(updatedGame).then().catch()
     }
 )
