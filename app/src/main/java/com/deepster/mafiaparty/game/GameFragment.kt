@@ -54,12 +54,12 @@ class GameFragment : Fragment() {
             val game = viewModel.game.value!!
             lateinit var voteString: String
 
-            if (game.period % 2 == 1) { // If it is night, the vote works according to the user's role
+            voteString = if (game.period % 2 == 1) { // If it is night, the vote works according to the user's role
                 val role = viewModel.role.value!!
-                voteString = "${button_vote.text},${role}"
+                "${button_vote.text},${role}"
 
             } else { // If it is day, it's lynch time
-                voteString = button_vote.text.toString()
+                button_vote.text.toString()
             }
 
             game.votes[game.period - 1][currentUser.username] = voteString
