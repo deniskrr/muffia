@@ -38,7 +38,8 @@
     </fragment>
     <fragment android:id="@+id/gameFragment" android:name="com.deepster.mafiaparty.game.GameFragment"
               android:label="fragment_game" tools:layout="@layout/fragment_game">
-        <action android:id="@+id/action_gameFragment_to_endGameFragment" app:destination="@id/endGameFragment"/>
+        <action android:id="@+id/action_gameFragment_to_endGameFragment" app:destination="@id/endGameFragment"
+                app:enterAnim="@anim/nav_default_enter_anim" app:exitAnim="@anim/nav_default_exit_anim"/>
     </fragment>
     <fragment android:id="@+id/endGameFragment" android:name="com.deepster.mafiaparty.game.EndGameFragment"
               android:label="fragment_end_game" tools:layout="@layout/fragment_end_game"/>

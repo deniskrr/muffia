@@ -74,10 +74,7 @@ class GameFragment : Fragment() {
         viewModel.game.observe(this, Observer { game ->
             viewModel.role.value = game.players[currentUser.username]
 
-            if (game.status != GameStatus.PLAYING) {
-                val endAction = GameFragmentDirections.actionGameFragmentToEndGameFragment()
-                findNavController().navigate(endAction)
-            }
+
 
             //todo Add resource strings
             val periodString = (if (game.period % 2 == 1) "Night " else "Day ") + ((game.period - 1) / 2 + 1)
@@ -129,6 +126,12 @@ class GameFragment : Fragment() {
 
             if (snapshot != null && snapshot.exists()) {
                 val game = snapshot.toObject(Game::class.java)!!
+
+                if (game.status != GameStatus.PLAYING) {
+                    val endAction = GameFragmentDirections.actionGameFragmentToEndGameFragment()
+                    findNavController().navigate(endAction)
+                }
+
                 viewModel.game.value = game
             }
         }
