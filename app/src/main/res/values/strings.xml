@@ -14,6 +14,7 @@
     <string name="create_lobby">Create lobby</string>
     <string name="join_lobby">Join lobby</string>
 
+    <string name="leave">Leave</string>
     <string name="start">Start</string>
     <string name="room_id">Room ID</string>
 

@@ -12,16 +12,16 @@
             android:layout_height="wrap_content" android:id="@+id/button_start_game"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/recycler_players" app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintHorizontal_bias="0.5" app:layout_constraintEnd_toStartOf="@+id/button2"
+            app:layout_constraintHorizontal_bias="0.5" app:layout_constraintEnd_toStartOf="@+id/button_leave"
             style="?button"/>
     <Button
-            android:text="@android:string/cancel"
+            android:text="@string/leave"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content" android:id="@+id/button2"
-            app:layout_constraintBaseline_toBaselineOf="@+id/button_start_game"
+            android:layout_height="wrap_content" android:id="@+id/button_leave"
             app:layout_constraintStart_toEndOf="@+id/button_start_game" app:layout_constraintHorizontal_bias="0.5"
             app:layout_constraintEnd_toEndOf="parent" style="@style/Widget.MaterialComponents.Button.OutlinedButton"
-            android:textColorLink="#3F51B5" android:textColor="@color/colorWhite"/>
+            android:textColorLink="#3F51B5" android:textColor="@color/colorWhite"
+            app:layout_constraintBaseline_toBaselineOf="@+id/button_start_game"/>
     <androidx.recyclerview.widget.RecyclerView
             android:layout_width="395dp"
             android:layout_height="500dp"

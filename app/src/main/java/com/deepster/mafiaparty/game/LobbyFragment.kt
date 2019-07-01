@@ -56,6 +56,17 @@ class LobbyFragment : Fragment() {
                 }
         }
 
+        button_leave.setOnClickListener {
+            val game = viewModel.game.value!!
+            game.players.remove(currentUser.username)
+//            viewModel.game.value = game
+
+            db.collection("games").document(game.roomID).set(game)
+
+            val backAction = LobbyFragmentDirections.actionLobbyFragmentToMainFragment()
+            findNavController().navigate(backAction)
+        }
+
         viewModel.game.observe(this, Observer { game ->
             // Set the player's role
             viewModel.role.value = game.players[currentUser.username]
@@ -66,7 +77,7 @@ class LobbyFragment : Fragment() {
             if (viewModel.role.value == Role.OWNER) {
                 button_start_game.isEnabled = game.players.size == 7
             } else {
-                //todo Show something else for normals players
+                button_start_game.visibility = View.INVISIBLE
             }
 
             if (game.period == 1) {
