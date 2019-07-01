@@ -28,6 +28,7 @@
         <action android:id="@+id/action_mainFragment_to_loginFragment" app:destination="@id/loginFragment"
                 app:enterAnim="@anim/nav_default_enter_anim" app:exitAnim="@anim/nav_default_exit_anim"
                 app:popEnterAnim="@anim/nav_default_pop_enter_anim" app:popExitAnim="@anim/nav_default_pop_exit_anim"/>
+        <action android:id="@+id/action_mainFragment_to_gameFragment" app:destination="@id/gameFragment"/>
     </fragment>
     <fragment android:id="@+id/lobbyFragment" android:name="com.deepster.mafiaparty.game.LobbyFragment"
               android:label="fragment_lobby" tools:layout="@layout/fragment_lobby">
@@ -36,5 +37,9 @@
                 app:popEnterAnim="@anim/nav_default_pop_enter_anim" app:popExitAnim="@anim/nav_default_pop_exit_anim"/>
     </fragment>
     <fragment android:id="@+id/gameFragment" android:name="com.deepster.mafiaparty.game.GameFragment"
-              android:label="fragment_game" tools:layout="@layout/fragment_game"/>
+              android:label="fragment_game" tools:layout="@layout/fragment_game">
+        <action android:id="@+id/action_gameFragment_to_endGameFragment" app:destination="@id/endGameFragment"/>
+    </fragment>
+    <fragment android:id="@+id/endGameFragment" android:name="com.deepster.mafiaparty.game.EndGameFragment"
+              android:label="fragment_end_game" tools:layout="@layout/fragment_end_game"/>
 </navigation>

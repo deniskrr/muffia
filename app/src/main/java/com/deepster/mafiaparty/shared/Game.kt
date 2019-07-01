@@ -3,11 +3,15 @@ package com.deepster.mafiaparty.shared
 import android.os.Parcelable
 import kotlinx.android.parcel.Parcelize
 
-
+@Parcelize
+enum class GameStatus : Parcelable {
+    PLAYING, TOWN, MAFIA
+}
 
 @Parcelize
 data class Game(
     val roomID: String = "",
+    val status: GameStatus = GameStatus.PLAYING,
     val copCount: Int = 1,
     val citizenCount: Int = 3,
     val doctorCount: Int = 1,
