@@ -6,9 +6,16 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         tools:context=".MainActivity" style="?pageBackground">
+    <androidx.appcompat.widget.Toolbar
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="#00000000"
+            android:theme="?attr/actionBarTheme"
+            android:minHeight="?attr/actionBarSize" android:id="@+id/toolbar"
+            app:layout_constraintTop_toTopOf="parent"/>
     <fragment
             android:name="androidx.navigation.fragment.NavHostFragment"
             android:layout_width="match_parent"
             android:layout_height="match_parent" app:navGraph="@navigation/main" app:defaultNavHost="true"
-            android:id="@+id/fragment"/>
+            android:id="@+id/fragment" android:saveEnabled="false"/>
 </androidx.constraintlayout.widget.ConstraintLayout>

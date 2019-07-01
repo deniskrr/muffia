@@ -37,4 +37,5 @@
 
     <string name="winning_team">Winning team</string>
     <string name="losing_team">Losing team</string>
+    <string name="log_out">Log out</string>
 </resources>
