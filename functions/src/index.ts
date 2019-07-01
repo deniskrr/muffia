@@ -17,7 +17,7 @@ export const startGame = functions.https.onCall(async (data, context) => {
 
                 let users = _.keys(game.players)
 
-                const roles : string[] = []
+                const roles: string[] = []
 
                 _.times(game.mafiaCount, () => roles.push('MAFIA'))
                 _.times(game.copCount, () => roles.push('COP'))
@@ -34,7 +34,6 @@ export const startGame = functions.https.onCall(async (data, context) => {
                 game.alivePlayers = _.keys(game.players)
 
                 updatedGame = game
-
 
             }
         })
@@ -72,9 +71,9 @@ function kill(game: any, killed: string) {
 }
 
 
-function getMostFrequentVote(votes : Array<String>) : string {
+function getMostFrequentVote(votes: Array<String>): string {
     const voteCount = _.countBy(votes)
-    const mostFrequent = _.maxBy(_.keys(voteCount), (votedPlayer : string) => voteCount[votedPlayer])
+    const mostFrequent = _.maxBy(_.keys(voteCount), (votedPlayer: string) => voteCount[votedPlayer])
     if (mostFrequent !== undefined) {
         return mostFrequent
     }
@@ -82,11 +81,20 @@ function getMostFrequentVote(votes : Array<String>) : string {
 }
 
 function investigate(game: any, investigated: string) {
-    if (game.alivePlayers[investigated] === 'MAFIA') {
+    if (game.players[investigated] === 'MAFIA') {
         game.investigatedPlayers[investigated] = 'MAFIA'
     } else {
         game.investigatedPlayers[investigated] = 'CITIZEN'
     }
+}
+
+function getGameStatus(game: any): string {
+    if (game.mafiaCount >= game.copCount + game.doctorCount + game.citizenCount) {
+        return 'MAFIA'
+    } else if (game.mafiaCount === 0) {
+        return 'TOWN'
+    }
+    return 'PLAYING'
 }
 
 function advancePeriod(game: any) {
@@ -102,6 +110,7 @@ export const newPeriod = functions.https.onCall(async (data, context) => {
                 return gameSnapshot.data() // Get game object
             }).then(game => {
                 if (game !== undefined) {
+
                     if (game.period % 2 === 1 && _.keys(game.votes[game.period - 1]).length ===
                         _.keys(game.alivePlayers).length - game.citizenCount) { // Night time and enough players voted
 
@@ -132,39 +141,40 @@ export const newPeriod = functions.https.onCall(async (data, context) => {
                             }
                         })
 
-                        const killed = getMostFrequentVote(mafiaVotes)
-                        const saved = getMostFrequentVote(doctorVotes)
-                        const investigated = getMostFrequentVote(copVotes)
-
                         // Perform actions based on votes
-                        investigate(game, investigated)
+                        const killed = getMostFrequentVote(mafiaVotes)
+                        let saved, investigated
+                        if (doctorVotes.length > 0)
+                            saved = getMostFrequentVote(doctorVotes)
 
+                        if (copVotes.length > 0) {
+                            investigated = getMostFrequentVote(copVotes)
+                            investigate(game, investigated)
+                        }
                         if (killed !== saved) {
                             kill(game, killed)
                         }
 
                         advancePeriod(game)
 
-                        updatedGame = game
-
                     } else if (game.period % 2 === 0 &&
                         _.keys(game.votes[game.period - 1]).length === _.keys(game.alivePlayers).length) { // Day time and enough players voted
 
                         console.log("Day time")
-
                         const lynchVotes = _.values(game.votes[game.period - 1])
-
                         const lynchedPlayer = getMostFrequentVote(lynchVotes)
-
                         // Kill it
                         if (lynchedPlayer !== undefined) kill(game, lynchedPlayer)
 
                         advancePeriod(game)
-
-                        updatedGame = game
-
                     }
+
+                    const status = getGameStatus(game)
+                    game.status = status
+                    updatedGame = game
                 }
+
+
             })
         // Update the game in the DB
         return admin.firestore().collection("games").doc(data).update(updatedGame).then().catch()
