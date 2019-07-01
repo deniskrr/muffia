@@ -33,4 +33,7 @@
     <string name="doctor_help">Select who you want to save.</string>
     <string name="citizen_help">Wait and pray.</string>
     <string name="lynch_help">Select who you want to lynch.</string>
+
+    <string name="winning_team">Winning team</string>
+    <string name="losing_team">Losing team</string>
 </resources>

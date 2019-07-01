@@ -75,7 +75,9 @@ class GameFragment : Fragment() {
             //todo Add resource strings
             val periodString = (if (game.period % 2 == 1) "Night " else "Day ") + ((game.period - 1) / 2 + 1)
             text_period.text = periodString
-            if (game.period % 2 == 1) { // Night time
+            if (game.period == -1) {
+
+            } else if (game.period % 2 == 1) { // Night time
                 //todo Make background dark
                 when (viewModel.role.value) {
                     Role.MAFIA -> {
