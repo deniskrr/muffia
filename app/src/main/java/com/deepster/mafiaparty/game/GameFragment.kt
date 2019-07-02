@@ -113,7 +113,19 @@ class GameFragment : Fragment() {
                 }
             }
             adapter.clear()
-            adapter.addAll(game.alivePlayers.map { player -> UserItemView(player) })
+            val role = viewModel.role.value
+            adapter.addAll(game.alivePlayers.map { player ->
+
+                if (role == Role.CITIZEN) {
+                    UserItemView(player)
+                } else {
+                    if (game.players[player] == role) { // If the player has the same allegiance as you
+                        UserItemView(player, role)
+                    } else {
+                        UserItemView(player)
+                    }
+                }
+            })
         })
 
         val roomID = viewModel.game.value!!.roomID

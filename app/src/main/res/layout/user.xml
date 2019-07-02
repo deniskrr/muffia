@@ -17,4 +17,10 @@
             android:layout_height="2dp"
             android:background="?android:attr/listDivider"
             app:layout_constraintTop_toBottomOf="@+id/text_player_name" android:layout_marginTop="8dp"/>
+    <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" android:id="@+id/text_player_role"
+            app:layout_constraintEnd_toEndOf="parent"
+            android:layout_marginEnd="8dp" android:layout_marginRight="8dp"
+            app:layout_constraintBaseline_toBaselineOf="@+id/text_player_name"/>
 </androidx.constraintlayout.widget.ConstraintLayout>

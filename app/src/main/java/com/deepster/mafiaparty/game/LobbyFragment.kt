@@ -87,8 +87,8 @@ class LobbyFragment : Fragment() {
 
             // Update UI player list
             adapter.clear()
-            adapter.addAll(game.players.keys.map { player ->
-                UserItemView(player)
+            adapter.addAll(game.players.entries.map { player ->
+                UserItemView(player.key, player.value)
             })
         })
 
