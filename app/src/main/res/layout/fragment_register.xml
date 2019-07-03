@@ -27,7 +27,7 @@
         <com.google.android.material.textfield.TextInputEditText
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:hint="@string/e_mail"/>
+                android:hint="@string/e_mail" android:inputType="textWebEmailAddress"/>
     </com.google.android.material.textfield.TextInputLayout>
     <com.google.android.material.textfield.TextInputLayout
             android:layout_width="0dp"
@@ -35,12 +35,13 @@
             android:id="@+id/username_register"
             app:layout_constraintTop_toBottomOf="@+id/email_register"
             app:layout_constraintBottom_toTopOf="@+id/password_register" app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintHorizontal_bias="0.5" app:layout_constraintEnd_toEndOf="parent">
+            app:layout_constraintHorizontal_bias="0.5" app:layout_constraintEnd_toEndOf="parent"
+            app:passwordToggleEnabled="true">
 
         <com.google.android.material.textfield.TextInputEditText
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:hint="@string/username"/>
+                android:hint="@string/username" android:inputType="text"/>
     </com.google.android.material.textfield.TextInputLayout>
     <com.google.android.material.textfield.TextInputLayout
             android:layout_width="0dp"
@@ -48,12 +49,13 @@
             android:id="@+id/password_register"
             app:layout_constraintTop_toBottomOf="@+id/username_register"
             app:layout_constraintBottom_toTopOf="@+id/button_register" app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintHorizontal_bias="0.5" app:layout_constraintEnd_toEndOf="parent">
+            app:layout_constraintHorizontal_bias="0.5" app:layout_constraintEnd_toEndOf="parent"
+            app:passwordToggleEnabled="true">
 
         <com.google.android.material.textfield.TextInputEditText
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:hint="@string/password"/>
+                android:hint="@string/password" android:inputType="textPassword"/>
     </com.google.android.material.textfield.TextInputLayout>
     <TextView
             android:text="@string/have_account"
