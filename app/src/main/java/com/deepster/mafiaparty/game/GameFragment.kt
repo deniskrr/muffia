@@ -75,7 +75,6 @@ class GameFragment : Fragment() {
             viewModel.role.value = game.players[currentUser.username]
 
 
-
             //todo Add resource strings
             val periodString = (if (game.period % 2 == 1) "Night " else "Day ") + ((game.period - 1) / 2 + 1)
             text_period.text = periodString
@@ -121,6 +120,11 @@ class GameFragment : Fragment() {
                 } else {
                     if (game.players[player] == role) { // If the player has the same allegiance as you
                         UserItemView(player, role)
+                    } else if (role == Role.COP && game.investigatedPlayers.containsKey(player)) {
+                        when (game.investigatedPlayers[player]) {
+                            Role.MAFIA -> UserItemView(player, Role.MAFIA)
+                            else -> UserItemView(player, Role.TOWN)
+                        }
                     } else {
                         UserItemView(player)
                     }
