@@ -1,6 +1,7 @@
 package com.deepster.mafiaparty.authentication
 
 import android.app.Application
+import android.util.Log
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
@@ -12,8 +13,8 @@ import com.google.firebase.firestore.FirebaseFirestore
 class AuthViewModel(application: Application) : AndroidViewModel(application) {
 
     companion object Credentials {
-        val email: String = ""
-        val password: String = ""
+        var email: String = ""
+        var password: String = ""
     }
 
     val auth: FirebaseAuth = FirebaseAuth.getInstance()
@@ -31,8 +32,8 @@ class AuthViewModel(application: Application) : AndroidViewModel(application) {
         }
     }
 
-    fun registerUser() {
-        auth.createUserWithEmailAndPassword(Credentials.email, Credentials.password)
+    fun registerUser(email : String, password : String) {
+        auth.createUserWithEmailAndPassword(email, password)
             .addOnCompleteListener { authSignUpTask ->
                 if (authSignUpTask.isSuccessful) {
                     val uid = auth.currentUser!!.uid
