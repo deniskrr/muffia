@@ -48,8 +48,8 @@ class AuthViewModel(application: Application) : AndroidViewModel(application) {
             }
     }
 
-    fun loginUser() {
-        auth.signInWithEmailAndPassword(Credentials.email, Credentials.password).addOnCompleteListener { task ->
+    fun loginUser(email: String, password: String) {
+        auth.signInWithEmailAndPassword(email, password).addOnCompleteListener { task ->
             if (task.isSuccessful) {
 
             }
