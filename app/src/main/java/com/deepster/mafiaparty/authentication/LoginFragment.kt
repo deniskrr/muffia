@@ -14,6 +14,9 @@ import com.deepster.mafiaparty.databinding.FragmentLoginBinding
 
 class LoginFragment : Fragment() {
 
+    private val viewModel: AuthViewModel by lazy {
+        ViewModelProviders.of(this).get(AuthViewModel::class.java)
+    }
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -24,7 +27,7 @@ class LoginFragment : Fragment() {
 
         binding.lifecycleOwner = viewLifecycleOwner
 
-        val viewModel = ViewModelProviders.of(this).get(AuthViewModel::class.java)
+        binding.viewModel = viewModel
 
         viewModel.onUserLoggedIn.observe(viewLifecycleOwner, Observer { loggedIn ->
             if (loggedIn) {
@@ -33,15 +36,8 @@ class LoginFragment : Fragment() {
             }
         })
 
-        binding.viewModel = viewModel
 
         return binding.root
-    }
-
-    override fun onActivityCreated(savedInstanceState: Bundle?) {
-        super.onActivityCreated(savedInstanceState)
-
-
     }
 
 

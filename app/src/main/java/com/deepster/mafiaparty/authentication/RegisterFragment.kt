@@ -6,10 +6,16 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
+import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
+import androidx.navigation.findNavController
 import com.deepster.mafiaparty.databinding.FragmentRegisterBinding
 
 class RegisterFragment : Fragment() {
+
+    private val viewModel: AuthViewModel by lazy {
+        ViewModelProviders.of(this).get(AuthViewModel::class.java)
+    }
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -19,14 +25,20 @@ class RegisterFragment : Fragment() {
 
         binding.lifecycleOwner = viewLifecycleOwner
 
-        binding.viewModel = ViewModelProviders.of(activity!!).get(AuthViewModel::class.java)
+        binding.viewModel = viewModel
+
+        viewModel.onUserLoggedIn.observe(viewLifecycleOwner, Observer { loggedIn ->
+            if (loggedIn) {
+                val action = RegisterFragmentDirections.actionRegisterFragmentToMainFragment()
+                binding.root.findNavController().navigate(action)
+            }
+        })
+
+        binding.textHaveAccount.setOnClickListener {
+            val action = RegisterFragmentDirections.actionRegisterFragmentToMainFragment()
+            binding.root.findNavController().navigate(action)
+        }
         return binding.root
-    }
-
-    override fun onActivityCreated(savedInstanceState: Bundle?) {
-        super.onActivityCreated(savedInstanceState)
-
-
     }
 
 
