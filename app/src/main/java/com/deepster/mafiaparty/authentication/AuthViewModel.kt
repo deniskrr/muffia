@@ -1,7 +1,6 @@
 package com.deepster.mafiaparty.authentication
 
 import android.app.Application
-import android.util.Log
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
@@ -17,8 +16,8 @@ class AuthViewModel(application: Application) : AndroidViewModel(application) {
         var password: String = ""
     }
 
-    val auth: FirebaseAuth = FirebaseAuth.getInstance()
-    val db: FirebaseFirestore = FirebaseFirestore.getInstance()
+    private val auth: FirebaseAuth = FirebaseAuth.getInstance()
+    private val db: FirebaseFirestore = FirebaseFirestore.getInstance()
 
     private val _currentUser = MutableLiveData<String?>()
 
