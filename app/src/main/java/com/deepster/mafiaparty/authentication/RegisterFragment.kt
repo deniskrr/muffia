@@ -17,6 +17,8 @@ class RegisterFragment : Fragment() {
     ): View? {
         val binding = FragmentRegisterBinding.inflate(inflater)
 
+        binding.lifecycleOwner = viewLifecycleOwner
+
         binding.viewModel = ViewModelProviders.of(activity!!).get(AuthViewModel::class.java)
         return binding.root
     }

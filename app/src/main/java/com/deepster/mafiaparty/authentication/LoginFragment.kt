@@ -14,12 +14,15 @@ import com.deepster.mafiaparty.databinding.FragmentLoginBinding
 
 class LoginFragment : Fragment() {
 
+
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
 
         val binding = FragmentLoginBinding.inflate(inflater)
+
+        binding.lifecycleOwner = viewLifecycleOwner
 
         val viewModel = ViewModelProviders.of(this).get(AuthViewModel::class.java)
 
