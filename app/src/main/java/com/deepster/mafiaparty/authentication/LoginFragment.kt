@@ -33,6 +33,7 @@ class LoginFragment : Fragment() {
             if (loggedIn) {
                 val action = LoginFragmentDirections.actionLoginFragmentToMainFragment()
                 binding.root.findNavController().navigate(action)
+                viewModel.doneNavigating()
             }
         })
 

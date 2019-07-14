@@ -21,14 +21,18 @@ class AuthViewModel(application: Application) : AndroidViewModel(application) {
 
     private val _currentUser = MutableLiveData<String?>()
 
-    val onUserLoggedIn: LiveData<Boolean> = Transformations.map(_currentUser) { user ->
-        null != user
-    }
-
     init {
         auth.addAuthStateListener { state ->
             _currentUser.value = state.uid
         }
+    }
+
+    val onUserLoggedIn: LiveData<Boolean> = Transformations.map(_currentUser) { user ->
+        null != user
+    }
+
+    fun doneNavigating() {
+        _currentUser.value = null
     }
 
     fun registerUser(email : String, password : String) {

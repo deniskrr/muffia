@@ -31,6 +31,7 @@ class RegisterFragment : Fragment() {
             if (loggedIn) {
                 val action = RegisterFragmentDirections.actionRegisterFragmentToMainFragment()
                 binding.root.findNavController().navigate(action)
+                viewModel.doneNavigating()
             }
         })
 
