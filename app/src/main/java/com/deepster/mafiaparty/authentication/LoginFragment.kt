@@ -37,6 +37,10 @@ class LoginFragment : Fragment() {
             }
         })
 
+        binding.textNoAccount.setOnClickListener {
+            val action = LoginFragmentDirections.actionLoginFragmentToRegisterFragment()
+            binding.root.findNavController().navigate(action)
+        }
 
         return binding.root
     }
