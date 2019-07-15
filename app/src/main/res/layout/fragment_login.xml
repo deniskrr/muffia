@@ -9,7 +9,7 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             tools:context=".authentication.LoginFragment"
-            android:id="@+id/constraintLayout" style="?paddedLayout">
+            android:id="@+id/constraintLayout">
         <com.google.android.material.textfield.TextInputLayout
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
@@ -18,7 +18,9 @@
                 app:layout_constraintTop_toTopOf="parent"
                 app:layout_constraintBottom_toTopOf="@+id/password_login"
                 app:layout_constraintVertical_chainStyle="packed" app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintHorizontal_bias="0.5" app:layout_constraintEnd_toEndOf="parent">
+                app:layout_constraintHorizontal_bias="0.5" app:layout_constraintEnd_toEndOf="parent"
+                android:layout_marginLeft="@dimen/side_normal_margin" android:layout_marginStart="@dimen/side_normal_margin" android:layout_marginRight="@dimen/side_normal_margin"
+                android:layout_marginEnd="@dimen/side_normal_margin">
 
             <com.google.android.material.textfield.TextInputEditText
                     android:layout_width="match_parent"
@@ -34,7 +36,8 @@
                 app:layout_constraintTop_toBottomOf="@+id/email_login"
                 app:layout_constraintBottom_toTopOf="@+id/button_login" app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintHorizontal_bias="0.5" app:layout_constraintEnd_toEndOf="parent"
-                app:passwordToggleEnabled="true">
+                app:passwordToggleEnabled="true" android:layout_marginLeft="@dimen/side_normal_margin" android:layout_marginStart="@dimen/side_normal_margin"
+                android:layout_marginRight="@dimen/side_normal_margin" android:layout_marginEnd="@dimen/side_normal_margin">
 
             <com.google.android.material.textfield.TextInputEditText
                     android:layout_width="match_parent"
@@ -50,7 +53,9 @@
                 android:onClick="@{()->viewModel.loginUser(viewModel.Credentials.email, viewModel.Credentials.password)}"
                 app:layout_constraintTop_toBottomOf="@+id/password_login"
                 app:layout_constraintBottom_toTopOf="@+id/text_no_account" app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintHorizontal_bias="0.5" app:layout_constraintEnd_toEndOf="parent" style="?button"/>
+                app:layout_constraintHorizontal_bias="0.5" app:layout_constraintEnd_toEndOf="parent" style="?button"
+                android:layout_marginLeft="@dimen/side_normal_margin" android:layout_marginStart="@dimen/side_normal_margin" android:layout_marginRight="@dimen/side_normal_margin"
+                android:layout_marginEnd="@dimen/side_normal_margin"/>
         <TextView
                 android:text="@string/no_account"
                 android:layout_width="wrap_content"
@@ -58,6 +63,6 @@
                 android:id="@+id/text_no_account"
                 app:layout_constraintBottom_toBottomOf="parent" app:layout_constraintTop_toBottomOf="@+id/button_login"
                 app:layout_constraintEnd_toEndOf="parent" app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintHorizontal_bias="0.5"/>
+                app:layout_constraintHorizontal_bias="0.5" android:layout_marginTop="8dp"/>
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>
