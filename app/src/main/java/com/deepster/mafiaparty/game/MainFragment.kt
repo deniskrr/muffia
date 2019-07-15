@@ -1,6 +1,7 @@
 package com.deepster.mafiaparty.game
 
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -8,15 +9,10 @@ import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import androidx.navigation.findNavController
-import com.deepster.mafiaparty.R
 import com.deepster.mafiaparty.databinding.FragmentMainBinding
-import com.google.firebase.auth.FirebaseAuth
-import com.google.firebase.firestore.FirebaseFirestore
 
 class MainFragment : Fragment() {
 
-    private lateinit var auth: FirebaseAuth
-    private lateinit var db: FirebaseFirestore
     private val viewModel: MainViewModel by lazy {
         ViewModelProviders.of(this).get(MainViewModel::class.java)
     }
@@ -39,7 +35,20 @@ class MainFragment : Fragment() {
             }
         })
 
-        return inflater.inflate(R.layout.fragment_main, container, false)
+        viewModel.onNavigateToGame.observe(viewLifecycleOwner, Observer { joinMode ->
+            if (null != joinMode) {
+                val roomID = viewModel.roomID.value!!
+                val action = when (joinMode) {
+                    MainViewModel.JoinMode.GAME -> MainFragmentDirections.actionMainFragmentToGameFragment(roomID)
+                    MainViewModel.JoinMode.LOBBY -> MainFragmentDirections.actionMainFragmentToLobbyFragment(roomID)
+                }
+
+                binding.root.findNavController().navigate(action)
+
+            }
+        })
+
+        return binding.root
     }
 
 }
